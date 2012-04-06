@@ -2,3 +2,4 @@
 .DS_Store
 vlfeat-0.9.14
 *.fig
+*.mat

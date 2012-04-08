@@ -140,10 +140,13 @@ image = rgb2gray(imresize(imread('http://i.imgur.com/60AaF.jpg'),.05));
 %while (size(image,1) > 24 && size(image,2) > 24)
     squares = zeros(24,24,(size(image,1)-23)*(size(image,2)-23));
     squares2 = zeros(24*24,(size(image,1)-23)*(size(image,2)-23));
-    for ix = 1:size(image,1) - 24
-        for iy = 1:size(image,2) - 24
-            squares(:,:,(ix-1)*24 + iy) = image(ix:ix+23, iy:iy+23);
-            squares2(:,(ix-1)*24 + iy) = reshape(squares(:,:,(ix-1)*24 + iy),576,[]);
+    rowRange = size(image,1) - 23;
+    colRange = size(image,2) - 23;
+    for ix = 1:rowRange
+        for iy = 1:colRange
+            (ix-1)*colRange + iy
+            squares(:,:,(ix-1)*colRange + iy) = image(ix:ix+23, iy:iy+23);
+            squares2(:,(ix-1)*colRange + iy) = reshape(squares(:,:,(ix-1)*colRange + iy),576,[]);
         end
     end
     AS = FF'*squares2;                      % Compute the score of every face with every feature.
@@ -158,7 +161,7 @@ image = rgb2gray(imresize(imread('http://i.imgur.com/60AaF.jpg'),.05));
     end
     %image = imresize(image,.75);
 %end
-[pks, locs] = findpeaks(sum(VOTES));
+[pks, locs] = localmax(sum(VOTES));
 for ix = 1:size(locs,2)
     if(pks(ix) > 0)
         row = round(locs(ix) / 24) + 1;

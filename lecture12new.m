@@ -135,17 +135,20 @@ sum(CLASSIFICATION' == 1 &  desiredOut == -1)
 
 %% classify an image
 
-image = rgb2gray(imresize(imread('http://i.imgur.com/60AaF.jpg'),.05));
+%image = rgb2gray(imresize(imread('http://cdn.1920x1200.net/posts/wp-content/uploads/2011/01/famke_janssen_1920_1200_jan072011.jpg'),.025));
+
+image = rgb2gray(imresize(imread('http://i.imgur.com/60AaF.jpg'),.25));
+%image2 = imresize(image, .90);
+image2 = image;
 %image = retrieveImgur;
-%while (size(image,1) > 24 && size(image,2) > 24)
-    squares = zeros(24,24,(size(image,1)-23)*(size(image,2)-23));
-    squares2 = zeros(24*24,(size(image,1)-23)*(size(image,2)-23));
-    rowRange = size(image,1) - 23;
-    colRange = size(image,2) - 23;
+while (size(image2,1) > 24 && size(image2,2) > 24)
+    squares = zeros(24,24,(size(image2,1)-23)*(size(image2,2)-23));
+    squares2 = zeros(24*24,(size(image2,1)-23)*(size(image2,2)-23));
+    rowRange = size(image2,1) - 23;
+    colRange = size(image2,2) - 23;
     for ix = 1:rowRange
         for iy = 1:colRange
-            (ix-1)*colRange + iy
-            squares(:,:,(ix-1)*colRange + iy) = image(ix:ix+23, iy:iy+23);
+            squares(:,:,(ix-1)*colRange + iy) = image2(ix:ix+23, iy:iy+23);
             squares2(:,(ix-1)*colRange + iy) = reshape(squares(:,:,(ix-1)*colRange + iy),576,[]);
         end
     end
@@ -159,17 +162,18 @@ image = rgb2gray(imresize(imread('http://i.imgur.com/60AaF.jpg'),.05));
         sum(CLASSIFICATION' == 1) 
         sum(CLASSIFICATION' == -1)
     end
-    %image = imresize(image,.75);
-%end
-[pks, locs] = localmax(sum(VOTES));
-for ix = 1:size(locs,2)
-    if(pks(ix) > 0)
-        row = round(locs(ix) / 24) + 1;
-        col = round(mod(locs(ix),24))+1;
-        image(row,col:col+24) = 255;
-        image(row+24,col:col+24) = 255;
-        image(row:row+24,col) = 255;
-        image(row:row+24,col+24) = 255;
+    
+    locs =  localmax(reshape(sum(VOTES),rowRange,colRange));
+    for ix = 1:size(locs,2)
+        row = round(locs(ix) / colRange) + 1;
+        col = round(mod(locs(ix),colRange))+1;
+        image2(row,col:col+23) = 255;
+        image2(row+23,col:col+23) = 255;
+        image2(row:row+23,col) = 255;
+        image2(row:row+23,col+23) = 255;
     end
+    figure, colormap gray;
+    imagesc(image2);
+
+    image2 = imresize(image, size(image2)*.8);
 end
-imagesc(image);

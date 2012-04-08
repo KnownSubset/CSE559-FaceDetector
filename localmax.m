@@ -6,7 +6,7 @@ function [maximas] = localmax(matrix)
     for ix = 1:size(bw,1)
         for iy = 1:size(bw, 2)
             if (bw(ix,iy) > 0)
-                maximas(index) = (ix - 1)*size(bw,1) + iy;
+                maximas(index) = (ix - 1)*size(bw,2) + iy;
                 index = index + 1;
             end
         end

@@ -134,10 +134,11 @@ disp('Number of false positives: ');
 sum(CLASSIFICATION' == 1 &  desiredOut == -1)
 
 %% classify an image
+%image = rgb2gray(imresize(imread('http://ia.media-imdb.com/images/M/MV5BMTc4ODc4NTQ1N15BMl5BanBnXkFtZTcwNDUxODUyMw@@._V1._SX640_SY948_.jpg'),.5));
 
 %image = rgb2gray(imresize(imread('http://cdn.1920x1200.net/posts/wp-content/uploads/2011/01/famke_janssen_1920_1200_jan072011.jpg'),.025));
 
-image = rgb2gray(imresize(imread('http://i.imgur.com/60AaF.jpg'),.25));
+%image = rgb2gray(imresize(imread('http://i.imgur.com/60AaF.jpg'),.25));
 %image2 = imresize(image, .90);
 image2 = image;
 %image = retrieveImgur;
@@ -175,5 +176,5 @@ while (size(image2,1) > 24 && size(image2,2) > 24)
     figure, colormap gray;
     imagesc(image2);
 
-    image2 = imresize(image, size(image2)*.8);
+    image2 = imresize(image, size(image2)*.5);
 end

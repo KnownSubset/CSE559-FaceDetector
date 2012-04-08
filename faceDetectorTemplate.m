@@ -61,64 +61,37 @@ hold on;
 plot(bins2,counts2,'b');
 hold off;
 
-%% little boxes...
+%% set up for feature scoring
+features = [];
+featScores = [];
 
-% pick a random rectangle.
-tmpa = ceil(rand(1,1)*24);
-tmpb = ceil(rand(1,1)*24);
-while tmpb == tmpa
-    tmpb = ceil(rand(1,1)*24);
-end
-min1 = min(tmpa,tmpb);
-max1 = max(tmpa,tmpb);
-%
-tmpa = ceil(rand(1,1)*24);
-tmpb = ceil(rand(1,1)*24);
-while tmpb == tmpa
-    tmpb = ceil(rand(1,1)*24);
-end
-min2 = min(tmpa,tmpb);
-max2 = max(tmpa,tmpb);
+for ix = 1:1000
+    FEAT = generate_feature();
+    subplot(1,2,1);
+    imagesc(FEAT);
 
-% pick type of rectangle.
-rectType = ceil(rand(1,1)*2);
 
-% make rectangular feature:
-FEAT = zeros(24,24);
-if rectType == 1  % horizontal, 2 part.
-    mid = min1+floor((max1-min1)/2);
-    FEAT(min1:mid,min2:max2) = 1;
-    FEAT(mid+1:max1,min2:max2) = -1;
-elseif rectType == 2  % vertical, 2 part.
-    mid = min2+floor((max2-min2)/2);
-    FEAT(min1:max1,min2:mid) = 1;
-    FEAT(min1:max1,mid+1:max2) = -1;
-end
-subplot(1,2,1);
-imagesc(FEAT);
-   
+    % lets compute the score of some features:
+    subplot(1,2,2);
+    Fvec = reshape(faces,24*24,[]);
+    NFvec = reshape(nonfaces,24*24,[]);
 
-% lets compute the score of some features:
-subplot(1,2,2);
-Fvec = reshape(faces,24*24,[]);
-NFvec = reshape(nonfaces,24*24,[]);
+    scores = Fvec' * FEAT(:);
 
-scores = Fvec' * FEAT(:);
-
-[counts bins] = hist(Fvec' * FEAT(:),100);
-[counts2 bins2] = hist(NFvec' * FEAT(:),100);
-plot(bins,counts,'r');
-colormap gray;
-hold on;
-plot(bins2,counts2,'b');
-hold off;
+    [counts bins] = hist(Fvec' * FEAT(:),100);
+    [counts2 bins2] = hist(NFvec' * FEAT(:),100);
+    plot(bins,counts,'r');
+    colormap gray;
+    hold on;
+    plot(bins2,counts2,'b');
+    hold off;
     
 
-%% Now, evaluate a feature:
-featScores = [];
-featScore = max(abs(counts - count2));
+    % Now, evaluate a feature:
 
+    features = cat(2, features, [FEAT(:)]);
+    featScore = max(abs(counts - counts2));
+    featScores = cat(1, featScores, [featScore ix]);
 
-
-
+end
 

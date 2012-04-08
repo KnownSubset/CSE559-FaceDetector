@@ -61,7 +61,7 @@ for numFeats = 1:100
     bestWeakClassifierScore = 0;
     
     
-    for jx = 1:20  % boring for loops to always count up!
+    for jx = 1:40  % boring for loops to always count up!
         FEAT = generate_feature;                  % make a random feature.
         scores = allFaces' * FEAT(:);       % compute its score for all faces.
         % now try different thresholds.
@@ -92,9 +92,9 @@ for numFeats = 1:100
         % if better than we've seen so far, then save it.
         if weakClassifierScore > bestWeakClassifierScore
             bestWeakClassifierScore = weakClassifierScore;
-            subplot(1,2,1);
-            imagesc(FEAT);  % show it to the user
-            title(weakClassifierScore);  % let them see the score too
+            %subplot(1,2,1);
+            %imagesc(FEAT);  % show it to the user
+            %title(weakClassifierScore);  % let them see the score too
             FINALFEAT(:,:,numFeats) = FEAT;
             FINALTHRESH(numFeats) = cThresh;
         end
@@ -107,10 +107,10 @@ for numFeats = 1:100
     
     % normalize the weights or they'll go crazy.
     weights = weights./sum(weights(:));
-    subplot(1,2,2);
-    plot(weights);
-    title(jx);
-    drawnow;
+    %subplot(1,2,2);
+    %plot(weights);
+    %title(jx);
+    %drawnow;
 end
 %%
 
@@ -133,12 +133,40 @@ sum(CLASSIFICATION' == -1 &  desiredOut == 1)
 disp('Number of false positives: ');
 sum(CLASSIFICATION' == 1 &  desiredOut == -1)
 
+%% classify an image
 
-image = zeros(100,100);
-squares = zeros(576,(size(image,1)-23)*(size(image,2)-23));
-for ix = 1:size(zeros,1) - 24
-    for iy = 1:size(zeros,2) - 24
-        squares(:,(ix-1)*24+iy) = reshape(image(ix:ix+24, iy:iy+24), 576, []);
-        
+image = rgb2gray(imresize(imread('http://i.imgur.com/60AaF.jpg'),.05));
+%image = retrieveImgur;
+%while (size(image,1) > 24 && size(image,2) > 24)
+    squares = zeros(24,24,(size(image,1)-23)*(size(image,2)-23));
+    squares2 = zeros(24*24,(size(image,1)-23)*(size(image,2)-23));
+    for ix = 1:size(image,1) - 24
+        for iy = 1:size(image,2) - 24
+            squares(:,:,(ix-1)*24 + iy) = image(ix:ix+23, iy:iy+23);
+            squares2(:,(ix-1)*24 + iy) = reshape(squares(:,:,(ix-1)*24 + iy),576,[]);
+        end
+    end
+    AS = FF'*squares2;                      % Compute the score of every face with every feature.
+    AT = repmat(FINALTHRESH',1,size(AS,2)); % create matrix of all thresholds, replicating it so its same size as AS
+    VOTES = sign( AS - AT);                 % compute weak classification  of all faces for all features
+    CLASSIFICATION = sign(sum(VOTES)-eps);  % sum the classifications.  if something has EXACTLY the same number of 
+    if (sum(CLASSIFICATION' == 1) > 0)
+        disp('Number of labelled faces: ');
+        size(image)
+        sum(CLASSIFICATION' == 1) 
+        sum(CLASSIFICATION' == -1)
+    end
+    %image = imresize(image,.75);
+%end
+[pks, locs] = findpeaks(sum(VOTES));
+for ix = 1:size(locs,2)
+    if(pks(ix) > 0)
+        row = round(locs(ix) / 24) + 1;
+        col = round(mod(locs(ix),24))+1;
+        image(row,col:col+24) = 255;
+        image(row+24,col:col+24) = 255;
+        image(row:row+24,col) = 255;
+        image(row:row+24,col+24) = 255;
     end
 end
+imagesc(image);

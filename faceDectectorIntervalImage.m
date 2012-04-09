@@ -1,4 +1,5 @@
 %% generate interval images for each face and nonface
+startClock = clock;
 facesII = zeros(size(faces));
 for ix = 1:size(faces,3)
     facesII(:,:,ix) = integralImage(faces(:,:,ix));
@@ -7,35 +8,21 @@ nonfacesII = zeros(size(nonfaces));
 for ix = 1:size(nonfaces,3)
     nonfacesII(:,:,ix) = integralImage(nonfaces(:,:,ix));
 end
+disp('integral image calcs');
+clock - startClock
 
 %% make viola jones features
-FEAT = generate_feature;   % look inside this function.  This returns a 24 x 24 image of values 0,-1,1.
-subplot(1,2,1);
-imagesc(FEAT);  %look at the feature.
-% lets compute the score of some features:
-subplot(1,2,2);
 Fvec = reshape(faces,24*24,[]);
 NFvec = reshape(nonfaces,24*24,[]);
 
-scores = Fvec' * FEAT(:);    % compute the feature response
-
-% show histograms.
-[counts bins] = hist(Fvec' * FEAT(:),100);
-[counts2 bins2] = hist(NFvec' * FEAT(:),100);
-plot(bins,counts,'r');
-hold on;
-plot(bins2,counts2,'b');
-hold off;
-
 
 %% sweet!  now let's do Robert's crummy but intuitive boosting...
-allFaces = [Fvec NFvec];
-numFaces = size(Fvec,2);
-numNonFaces = size(NFvec,2);
-desiredOut = [ones(1,size(Fvec,2)) -ones(1,size(NFvec,2))]';
+numFaces = size(facesII,3);
+numNonFaces = size(nonfacesII,3);
+desiredOut = [ones(1,size(facesII,3)) -ones(1,size(nonfacesII,3))]';
 % make the total weight of faces and non faces the same (so that just
 % calling everything "not a face" isn't a win...
-weights = [numNonFaces.*ones(1,size(Fvec,2)) numFaces.*ones(1,size(NFvec,2))]';
+weights = [numNonFaces.*ones(1,size(facesII,3)) numFaces.*ones(1,size(nonfacesII,3))]';
 weights = weights./sum(weights(:));
 %% now, make 20 Features
 % initial some variables
@@ -52,11 +39,22 @@ for numFeats = 1:100
     
     
     for jx = 1:10  % boring for loops to always count up!
-        FEAT = gen_interval_feature;                  % make a random feature.
-        scores = allFaces' * FEAT(:);       % compute its score for all faces.
         %generate_feature and have it return the corners of positive regions, and corners of negative regions 
         %score of face = (sum up positive - sum of negative regions) 
         
+        [POSITIVE NEGATIVE] = gen_interval_feature;                  % make a random feature.
+        scores = zeros(1, numFaces + numNonFaces);
+        for fx = 1:numFaces
+            for px = 1:size(POSITIVE, 1)
+                scores(1,fx) = scores(1,fx) + calculateIntegralImageSection(facesII(:,:,fx),POSITIVE(px,:));
+            end
+        end
+        for sx = 1:numNonFaces
+            for nx = 1:size(NEGATIVE, 1)
+                scores(1,sx+numFaces) = scores(1,sx+numFaces) - calculateIntegralImageSection(nonfacesII(:,:,sx),NEGATIVE(nx,:));
+            end
+        end
+      
         % now try different thresholds.
         thresholdList = linspace(min(scores),max(scores),1000);  % make 1000 thresholds.
         cScore = 0;    %initialize some stuff about those thresholds.
@@ -66,7 +64,7 @@ for numFeats = 1:100
             classifierResult = sign(scores-thresholdList(ix));
             
             % compute "weighted" score for each face.
-            tmp = classifierResult .* desiredOut .* weights;
+            tmp = (classifierResult' .* desiredOut .* weights)';
             
             % classifier score is the sum of these weighted scores.
             tmpScore = sum(tmp);
@@ -80,12 +78,12 @@ for numFeats = 1:100
         weakClassifier = sign(scores-cThresh);
         
         % recompute how good that actually was.
-        weakClassifierScore = sum(weakClassifier .* desiredOut .*weights);
+        weakClassifierScore = sum(weakClassifier' .* desiredOut .*weights);
         
         % if better than we've seen so far, then save it.
         if weakClassifierScore > bestWeakClassifierScore
             bestWeakClassifierScore = weakClassifierScore;
-            FINALFEAT(:,:,numFeats) = FEAT;
+            %FINALFEAT(:,:,numFeats) = FEAT;
             FINALTHRESH(numFeats) = cThresh;
         end
     end
@@ -93,7 +91,7 @@ for numFeats = 1:100
     
     % ok... so the above loop picked the best of 100 possible features.
     % now, let's update the weights of the samples.
-    weights = weights .* exp(-desiredOut .* weakClassifier);
+    weights = weights .* exp(-desiredOut .* weakClassifier');
     
     % normalize the weights or they'll go crazy.
     weights = weights./sum(weights(:));

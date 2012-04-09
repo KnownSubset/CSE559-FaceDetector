@@ -1,6 +1,5 @@
 
 %%
-clear;              % clear all variables from your workspace
 %      equivalent to:  ".... and now for something completely different"
 
 % the following two files require that you download a bit of matlab code

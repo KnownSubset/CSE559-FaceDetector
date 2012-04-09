@@ -1,22 +1,3 @@
-%addpath(genpath('C:\FACES'));
-% the following two files require that you download a bit of matlab code
-% and a data file from:
-% http://www.cs.ubc.ca/~pcarbo/viola-traindata.tar.gz, and make sure
-% that those files are in your path...
-%faces = getFaces('data\faces.pat',24,0);        % reads from a file
-%nonfaces = getFaces('data\nonfaces.pat',24,0);  % reads from a file
-
-for ix = 1:49            % loop over some faces
-  imagesc(faces(:,:,ix));  % display the ix-th face.
-  %imagesc(nonfaces(:,:,ix));  % display the ix-th non-face.
-  drawnow;
-end
-
-%%
-figure(1);
-montage(permute(faces(:,:,1:10:640)./255,[1 2 4 3]));
-figure(2);
-montage(permute(nonfaces(:,:,1:100:6400)./255,[1 2 4 3]));
 
 
 %% make viola jones features
@@ -52,7 +33,8 @@ weights = weights./sum(weights(:));
 % initial some variables
 FINALFEAT = [];
 FINALTHRESH = [];
-
+bests = [];
+clock
 for numFeats = 1:100
    
     % so, 200 times, we're going to find a good classifier.  we're going
@@ -61,7 +43,7 @@ for numFeats = 1:100
     bestWeakClassifierScore = 0;
     
     
-    for jx = 1:40  % boring for loops to always count up!
+    for jx = 1:10  % boring for loops to always count up!
         FEAT = generate_feature;                  % make a random feature.
         scores = allFaces' * FEAT(:);       % compute its score for all faces.
         % now try different thresholds.
@@ -99,6 +81,7 @@ for numFeats = 1:100
             FINALTHRESH(numFeats) = cThresh;
         end
     end
+    bests(numFeats) = bestWeakClassifierScore;
     
     % ok... so the above loop picked the best of 100 possible features.
     
@@ -112,17 +95,25 @@ for numFeats = 1:100
     %title(jx);
     %drawnow;
 end
+clock
 %%
-
+[y i] = sort(bests,2,'descend');
 FF = reshape(FINALFEAT,576,[]);         % Reshape all the good features into one matrix
 AS = FF'*allFaces;                      % Compute the score of every face with every feature.
 AT = repmat(FINALTHRESH',1,size(AS,2)); % create matrix of all thresholds, replicating it so its same size as AS
 VOTES = sign( AS - AT);                 % compute weak classification  of all faces for all features
+
+for ix = 1:size(i,2)
+   VOTES(ix,:) = VOTES(ix,:)*(y(ix)); 
+end
+
 CLASSIFICATION = sign(sum(VOTES)-eps);  % sum the classifications.  if something has EXACTLY the same number of 
                                         % yes and no votes, then it is 0
                                         % instead of -1 of +1, so -eps
                                         % makes sure that doesn't happen.
 
+                                        
+                                        
 disp('Number of correctly labelled faces: ');
 sum(CLASSIFICATION' == 1 &  desiredOut == 1)
 disp('Number of correctly labelled nonfaces: ');
@@ -134,15 +125,9 @@ disp('Number of false positives: ');
 sum(CLASSIFICATION' == 1 &  desiredOut == -1)
 
 %% classify an image
-%image = rgb2gray(imresize(imread('http://ia.media-imdb.com/images/M/MV5BMTc4ODc4NTQ1N15BMl5BanBnXkFtZTcwNDUxODUyMw@@._V1._SX640_SY948_.jpg'),.5));
-
-%image = rgb2gray(imresize(imread('http://cdn.1920x1200.net/posts/wp-content/uploads/2011/01/famke_janssen_1920_1200_jan072011.jpg'),.025));
-
-%image = rgb2gray(imresize(imread('http://i.imgur.com/60AaF.jpg'),.25));
-%image2 = imresize(image, .90);
-image2 = image;
-%image = retrieveImgur;
-while (size(image2,1) > 24 && size(image2,2) > 24)
+%image = rgb2gray(imresize(imread('http://i.imgur.com/02npE.jpg'),.5));
+image2 = imresize(image, .25);
+%while (size(image2,1) > 24 && size(image2,2) > 24)
     squares = zeros(24,24,(size(image2,1)-23)*(size(image2,2)-23));
     squares2 = zeros(24*24,(size(image2,1)-23)*(size(image2,2)-23));
     rowRange = size(image2,1) - 23;
@@ -176,5 +161,5 @@ while (size(image2,1) > 24 && size(image2,2) > 24)
     figure, colormap gray;
     imagesc(image2);
 
-    image2 = imresize(image, size(image2)*.5);
-end
+%    image2 = imresize(image, size(image2)*.5);
+%end

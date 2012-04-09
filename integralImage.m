@@ -1,14 +1,10 @@
 function [integralValues] = integralImage(image)
-
-integralValues = zeros(size(image));
-integralValues(1,:) = image(1,:);
-previousRow = integralValues(1, :);
-for row = 2:size(image,1)
-  integralValues(row, 1) = image(row, 1) + integralValues(row-1, 1); 
-end
-for row = 2:size(image,1)
-   for column = 2:size(image,2)
-      integralValues(row, column) = previousRow(column) + integralValues(row, column -1); 
+integralValues = double(zeros(size(image) + 1));
+for row = 1:size(image,1)
+   for column = 1:size(image,2)
+       one = integralValues(row+1, column);
+       two = integralValues(row, column + 1);
+       integralValues(row+1, column + 1) = double(image(row,column))/255 + one + two + integralValues(row, column); 
    end
-   previousRow = integralValues(row,:);
 end
+integralValues = integralValues(2:size(integralValues,1),2:size(integralValues,2));

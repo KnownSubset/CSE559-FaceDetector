@@ -46,6 +46,9 @@ for numFeats = 1:100
     for jx = 1:10  % boring for loops to always count up!
         FEAT = generate_feature;                  % make a random feature.
         scores = allFaces' * FEAT(:);       % compute its score for all faces.
+        %generate_feature and have it return the corners of positive regions, and corners of negative regions 
+        %score of face = (sum up positive - sum of negative regions) 
+        
         % now try different thresholds.
         thresholdList = linspace(min(scores),max(scores),1000);  % make 1000 thresholds.
         cScore = 0;    %initialize some stuff about those thresholds.
@@ -74,9 +77,6 @@ for numFeats = 1:100
         % if better than we've seen so far, then save it.
         if weakClassifierScore > bestWeakClassifierScore
             bestWeakClassifierScore = weakClassifierScore;
-            %subplot(1,2,1);
-            %imagesc(FEAT);  % show it to the user
-            %title(weakClassifierScore);  % let them see the score too
             FINALFEAT(:,:,numFeats) = FEAT;
             FINALTHRESH(numFeats) = cThresh;
         end
@@ -84,16 +84,11 @@ for numFeats = 1:100
     bests(numFeats) = bestWeakClassifierScore;
     
     % ok... so the above loop picked the best of 100 possible features.
-    
     % now, let's update the weights of the samples.
     weights = weights .* exp(-desiredOut .* weakClassifier);
     
     % normalize the weights or they'll go crazy.
     weights = weights./sum(weights(:));
-    %subplot(1,2,2);
-    %plot(weights);
-    %title(jx);
-    %drawnow;
 end
 clock
 %%

@@ -116,12 +116,16 @@ disp('Number of false positives: ');
 sum(CLASSIFICATION' == 1 &  desiredOut == -1)
 
 %% classify an image
-%image = rgb2gray(imresize(imread('http://i.imgur.com/02npE.jpg'),.5));
+image = rgb2gray(imread('/Users/nathan/Development/CSE559/Project3/data/lotr_cast1.jpg'));
+%%LOTR cast
+%image2 = rgb2gray(imread('/Users/nathan/Development/CSE559/Project3/data/lotr_cast2.jpg'));
+%image3 = rgb2gray(imread('/Users/nathan/Development/CSE559/Project3/data/princess_bride.jpg'));
+%%LOTR cast
 image2 = imresize(image, .75);
 disp('classify squares');
 startClock = clock
 while (size(image2,1) > 24 && size(image2,2) > 24)
-    classify_image(image2, FF, FINALTHRESH);
+    classify_image(image2, FF, FINALTHRESH, bests);
     image2 = imresize(image, size(image2)*.5);
 end
 

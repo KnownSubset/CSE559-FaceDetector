@@ -1,9 +1,12 @@
-function [] = classify_image(image, FF, FINALTHRESH)
-    image2 = imresize(image, .75);
+function [squares CLASSIFICATION] = classify_image(image, FF, FINALTHRESH)
+    image2 = image;
     squares = zeros(24,24,(size(image2,1)-23)*(size(image2,2)-23));
     squares2 = zeros(24*24,(size(image2,1)-23)*(size(image2,2)-23));
     rowRange = size(image2,1) - 23;
     colRange = size(image2,2) - 23;
+    if (rowRange < 1 || colRange < 1)
+        return
+    end
     for ix = 1:rowRange
         for iy = 1:colRange
             squares(:,:,(ix-1)*colRange + iy) = image2(ix:ix+23, iy:iy+23);
@@ -20,11 +23,10 @@ function [] = classify_image(image, FF, FINALTHRESH)
         sum(CLASSIFICATION' == 1) 
         sum(CLASSIFICATION' == -1)
     end
-    
     locs =  localmax(reshape(sum(VOTES),rowRange,colRange));
     for ix = 1:size(locs,2)
-        row = round(locs(ix) / colRange) + 1;
-        col = round(mod(locs(ix),colRange))+1;
+        row = floor(locs(ix) / colRange) + 1;
+        col = floor(mod(locs(ix),colRange))+1;
         image2(row,col:col+23) = 255;
         image2(row+23,col:col+23) = 255;
         image2(row:row+23,col) = 255;

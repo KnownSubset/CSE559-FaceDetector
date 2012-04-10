@@ -125,7 +125,7 @@ image2 = imresize(image, .75);
 disp('classify squares');
 startClock = clock
 while (size(image2,1) > 24 && size(image2,2) > 24)
-    classify_image(image2, FF, FINALTHRESH, bests);
+    classify_image(image2, FF, FINALTHRESH);
     image2 = imresize(image, size(image2)*.5);
 end
 

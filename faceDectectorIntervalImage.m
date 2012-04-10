@@ -2,20 +2,24 @@
 startClock = clock;
 facesII = zeros(size(faces));
 for ix = 1:size(faces,3)
-    facesII(:,:,ix) = integralImage(faces(:,:,ix));
+    facesII(:,:,ix) = cumsum(cumsum(faces(:,:,ix),1),2);
 end
 nonfacesII = zeros(size(nonfaces));
 for ix = 1:size(nonfaces,3)
-    nonfacesII(:,:,ix) = integralImage(nonfaces(:,:,ix));
+    nonfacesII(:,:,ix) = cumsum(cumsum(nonfaces(:,:,ix),1),2);
 end
 disp('integral image calcs');
-clock - startClock
+disp(clock - startClock);
 
 
 %% sweet!  now let's do Robert's crummy but intuitive boosting...
-allFaces = [Fvec NFvec];
-numFaces = size(Fvec,2);
-numNonFaces = size(NFvec,2);
+
+numFaces = size(faces,3);
+numNonFaces = size(nonfaces,3);
+allFaces = zeros(24,24, numFaces + numNonFaces);
+allFaces(:,:,1:numFaces) = facesII;
+allFaces(:,:,numFaces+1:numFaces+numNonFaces) = nonfacesII;
+
 desiredOut = [ones(1,size(Fvec,2)) -ones(1,size(NFvec,2))]';
 % make the total weight of faces and non faces the same (so that just
 % calling everything "not a face" isn't a win...
@@ -37,18 +41,28 @@ for numFeats = 1:100
     
     for jx = 1:10  % boring for loops to always count up!
       
-        [POSITIVE NEGATIVE] = gen_interval_feature;
-        FEAT = zeros(24, 24);                  % make a random feature.
-        for px = 1 : size(POSITIVE)
-            FEAT(POSITIVE(px, 1):POSITIVE(px, 3),POSITIVE(px, 2):POSITIVE(px, 4)) = 1;
-        end
-        for px = 1 : size(NEGATIVE)
-            FEAT(NEGATIVE(px, 1):NEGATIVE(px, 3),NEGATIVE(px, 2):NEGATIVE(px, 4)) = -1;
-        end
-        scores = allFaces' * FEAT(:);       % compute its score for all faces.
-         
+        [POSITIVE NEGATIVE] = gen_interval_feature;         
         %generate_feature and have it return the corners of positive regions, and corners of negative regions 
         %score of face = (sum up positive - sum of negative regions) 
+        
+        scores = zeros(1, 1, numFaces + numNonFaces);
+        for px = 1 : size(POSITIVE,1)
+            points = POSITIVE(px, 1:4);
+            row1 = points(1);
+            row2 = points(3);
+            col1 = points(2);
+            col2 = points(4);
+            scores = scores + (allFaces(row1, col1 ,:) + allFaces(row2, col2 ,:) - allFaces(row1, col2, :) - allFaces(row2, col1, :) );
+        end
+        for px = 1 : size(NEGATIVE,1)
+            points = NEGATIVE(px, 1:4);
+            row1 = points(1);
+            row2 = points(3);
+            col1 = points(2);
+            col2 = points(4);
+            scores = scores - (allFaces(row1, col1 ,:) + allFaces(row2, col2 ,:) - allFaces(row1, col2, :) - allFaces(row2, col1, :)) ;
+        end
+        scores = reshape(scores,numFaces+numNonFaces,1);
         
         % now try different thresholds.
         thresholdList = linspace(min(scores),max(scores),1000);  % make 1000 thresholds.
@@ -96,22 +110,34 @@ end
 clock
 %%
 [y i] = sort(bests,2,'descend');
-FF = reshape(FINALFEAT,576,[]);         % Reshape all the good features into one matrix
-AS = zeros(100, numFaces + numNonFaces);
+AS = zeros(100,1, numFaces + numNonFaces);
 for fx = 1:100
     POSITIVE = reshape(FINALFEAT_II(1,:,fx),2,4);        
     NEGATIVE = reshape(FINALFEAT_II(2,:,fx),2,4);
-    for sx = 1:numFaces
-%        face = facesII(:,:,sx);
-%        AS(fx,sx) = calcII(face,POSITIVE(1,:)) + calcII(face,POSITIVE(2,:)) - calcII(face,NEGATIVE(1,:)) - calcII(face,NEGATIVE(2,:));    
+    for px = 1 : size(POSITIVE,1)
+        points = POSITIVE(px, 1:4);
+        row1 = points(1);
+        row2 = points(3);
+        col1 = points(2);
+        col2 = points(4);
+        if (row1 > 0)
+            AS(fx,1,:) = AS(fx,1,:) + (allFaces(row1, col1 ,:) + allFaces(row2, col2 ,:) - allFaces(row1, col2, :) - allFaces(row2, col1, :) );
+        end
     end
-    clock
-    for sx = 1:numNonFaces
-        face = nonfacesII(:,:,sx);
-%        AS(fx,sx+numFaces) = calcII(face,POSITIVE(1,:)) + calcII(face,POSITIVE(2,:)) - calcII(face,NEGATIVE(1,:)) - calcII(face,NEGATIVE(2,:));
+    for px = 1 : size(NEGATIVE,1)
+        points = NEGATIVE(px, 1:4);
+        row1 = points(1);
+        row2 = points(3);
+        col1 = points(2);
+        col2 = points(4);
+        if (row1 > 0)
+            AS(fx,1,:) = AS(fx,1,:) - (allFaces(row1, col1 ,:) + allFaces(row2, col2 ,:) - allFaces(row1, col2, :) - allFaces(row2, col1, :)) ;
+        end
     end
 end
 beep
+
+AS = reshape(AS, 100, numFaces+numNonFaces);
 
 %AS = FF'*allFaces;                      % Compute the score of every face with every feature.
 AT = repmat(FINALTHRESH',1,size(AS,2)); % create matrix of all thresholds, replicating it so its same size as AS

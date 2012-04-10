@@ -16,19 +16,13 @@ function [VOTES] = cascade_classify_image(image, FF, FINALTHRESH, featureRanking
    
    %% Select the cascade of features to classify possible faces 
    [~, i] = sort(featureRanking,2,'descend');
-   cascadeThreshold = zeros(1,10);
-   cascadeFilter = zeros(576,10);
    
-   for ij = 1:10
+   
+   for ij = 1:4
        startClock = clock;
-       for ix = 1:10 
-           temp = ix + (ij-1)*10;
-           cascadeFilter(:,ix) = FF(:,i(temp)); 
-           cascadeThreshold(ix) = FINALTHRESH(temp);
-       end
 
        %% classify 
-       [CLASSIFICATION VOTES] = classify_squares(squares, cascadeFilter, cascadeThreshold);
+       [CLASSIFICATION VOTES] = classify_squares(squares, FF(:,1:(3^ij)), FINALTHRESH(1:(3^ij)));
 
        %% build squares out of 'positive' faces for next cascade 
        newSquares = zeros(24,24, sum(CLASSIFICATION == 1));

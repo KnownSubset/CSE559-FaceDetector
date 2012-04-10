@@ -60,8 +60,8 @@ function  [POSITIVE NEGATIVE] = gen_interval_feature()
             % now, err, recompute x
             xmin = ceil(rand(1,1)*22);
             xsizePossible = 24-xmin;
-            xmax = xmin+2*ceil(rand(1,1)*xsizePossible/2);
-            xmid = (xmin+xmax)/2;
+            xmid = xmin+ceil(rand(1,1)*xsizePossible/2);
+            xmax = xmid+ceil(rand(1,1)*(xmid - xmin)/2);
             
             POSITIVE = [xmin ymin xmid-1 ymid-1; xmid ymid xmax ymax];
             NEGATIVE = [xmin ymid xmid-1 ymax  ; xmid ymin xmax ymax];

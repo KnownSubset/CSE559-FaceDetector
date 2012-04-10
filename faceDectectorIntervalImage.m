@@ -11,10 +11,6 @@ end
 disp('integral image calcs');
 clock - startClock
 
-%% make viola jones features
-Fvec = reshape(faces,24*24,[]);
-NFvec = reshape(nonfaces,24*24,[]);
-
 
 %% sweet!  now let's do Robert's crummy but intuitive boosting...
 numFaces = size(facesII,3);
@@ -26,7 +22,7 @@ weights = [numNonFaces.*ones(1,size(facesII,3)) numFaces.*ones(1,size(nonfacesII
 weights = weights./sum(weights(:));
 %% now, make 20 Features
 % initial some variables
-FINALFEAT = [];
+FINALFEAT = zeros(2, 8, 100);
 FINALTHRESH = [];
 bests = [];
 startClock = clock;
@@ -38,7 +34,7 @@ for numFeats = 1:100
     bestWeakClassifierScore = 0;
     
     
-    for jx = 1:10  % boring for loops to always count up!
+    for jx = 1:20  % boring for loops to always count up!
         %generate_feature and have it return the corners of positive regions, and corners of negative regions 
         %score of face = (sum up positive - sum of negative regions) 
         
@@ -83,7 +79,8 @@ for numFeats = 1:100
         % if better than we've seen so far, then save it.
         if weakClassifierScore > bestWeakClassifierScore
             bestWeakClassifierScore = weakClassifierScore;
-            %FINALFEAT(:,:,numFeats) = FEAT;
+            FINALFEAT(1, 1:size(POSITIVE,1)*size(POSITIVE,2), numFeats) = POSITIVE(:);
+            FINALFEAT(2, 1:size(NEGATIVE,1)*size(NEGATIVE,2), numFeats) = NEGATIVE(:);
             FINALTHRESH(numFeats) = cThresh;
         end
     end
@@ -101,6 +98,18 @@ clock - startClock
 %%
 [y i] = sort(bests,2,'descend');
 FF = reshape(FINALFEAT,576,[]);         % Reshape all the good features into one matrix
+AS = zeros(1, numFaces + numNonFaces);
+        for fx = 1:numFaces
+            for px = 1:size(POSITIVE, 1)
+                AS(1,fx) = AS(1,fx) + calculateIntegralImageSection(facesII(:,:,fx),POSITIVE(px,:));
+            end
+        end
+        for sx = 1:numNonFaces
+            for nx = 1:size(NEGATIVE, 1)
+                AS(1,sx+numFaces) = scores(1,sx+numFaces) - calculateIntegralImageSection(nonfacesII(:,:,sx),NEGATIVE(nx,:));
+            end
+        end
+
 AS = FF'*allFaces;                      % Compute the score of every face with every feature.
 AT = repmat(FINALTHRESH',1,size(AS,2)); % create matrix of all thresholds, replicating it so its same size as AS
 VOTES = sign( AS - AT);                 % compute weak classification  of all faces for all features

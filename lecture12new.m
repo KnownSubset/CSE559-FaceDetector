@@ -44,8 +44,10 @@ for numFeats = 1:100
     
     
     for jx = 1:10  % boring for loops to always count up!
+      
         FEAT = generate_feature;                  % make a random feature.
         scores = allFaces' * FEAT(:);       % compute its score for all faces.
+         
         %generate_feature and have it return the corners of positive regions, and corners of negative regions 
         %score of face = (sum up positive - sum of negative regions) 
         
@@ -97,16 +99,10 @@ FF = reshape(FINALFEAT,576,[]);         % Reshape all the good features into one
 AS = FF'*allFaces;                      % Compute the score of every face with every feature.
 AT = repmat(FINALTHRESH',1,size(AS,2)); % create matrix of all thresholds, replicating it so its same size as AS
 VOTES = sign( AS - AT);                 % compute weak classification  of all faces for all features
-
-for ix = 1:size(i,2)
-   VOTES(ix,:) = VOTES(ix,:)*(y(ix)); 
-end
-
 CLASSIFICATION = sign(sum(VOTES)-eps);  % sum the classifications.  if something has EXACTLY the same number of 
                                         % yes and no votes, then it is 0
                                         % instead of -1 of +1, so -eps
                                         % makes sure that doesn't happen.
-
                                         
                                         
 disp('Number of correctly labelled faces: ');
@@ -121,8 +117,10 @@ sum(CLASSIFICATION' == 1 &  desiredOut == -1)
 
 %% classify an image
 %image = rgb2gray(imresize(imread('http://i.imgur.com/02npE.jpg'),.5));
-image2 = imresize(image, .25);
-%while (size(image2,1) > 24 && size(image2,2) > 24)
+image2 = imresize(image, .75);
+disp('classify squares');
+startClock = clock
+while (size(image2,1) > 24 && size(image2,2) > 24)
     squares = zeros(24,24,(size(image2,1)-23)*(size(image2,2)-23));
     squares2 = zeros(24*24,(size(image2,1)-23)*(size(image2,2)-23));
     rowRange = size(image2,1) - 23;
@@ -143,7 +141,8 @@ image2 = imresize(image, .25);
         sum(CLASSIFICATION' == 1) 
         sum(CLASSIFICATION' == -1)
     end
-    
+
+
     locs =  localmax(reshape(sum(VOTES),rowRange,colRange));
     for ix = 1:size(locs,2)
         row = round(locs(ix) / colRange) + 1;
@@ -153,8 +152,11 @@ image2 = imresize(image, .25);
         image2(row:row+23,col) = 255;
         image2(row:row+23,col+23) = 255;
     end
+    
     figure, colormap gray;
     imagesc(image2);
 
-%    image2 = imresize(image, size(image2)*.5);
-%end
+    image2 = imresize(image, size(image2)*.5);
+end
+
+clock

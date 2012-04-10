@@ -13,19 +13,20 @@ clock - startClock
 
 
 %% sweet!  now let's do Robert's crummy but intuitive boosting...
-numFaces = size(facesII,3);
-numNonFaces = size(nonfacesII,3);
-desiredOut = [ones(1,size(facesII,3)) -ones(1,size(nonfacesII,3))]';
+allFaces = [Fvec NFvec];
+numFaces = size(Fvec,2);
+numNonFaces = size(NFvec,2);
+desiredOut = [ones(1,size(Fvec,2)) -ones(1,size(NFvec,2))]';
 % make the total weight of faces and non faces the same (so that just
 % calling everything "not a face" isn't a win...
-weights = [numNonFaces.*ones(1,size(facesII,3)) numFaces.*ones(1,size(nonfacesII,3))]';
+weights = [numNonFaces.*ones(1,size(Fvec,2)) numFaces.*ones(1,size(NFvec,2))]';
 weights = weights./sum(weights(:));
 %% now, make 20 Features
 % initial some variables
-FINALFEAT = zeros(2, 8, 100);
+FINALFEAT = [];
 FINALTHRESH = [];
 bests = [];
-startClock = clock;
+clock
 for numFeats = 1:100
    
     % so, 200 times, we're going to find a good classifier.  we're going
@@ -34,23 +35,21 @@ for numFeats = 1:100
     bestWeakClassifierScore = 0;
     
     
-    for jx = 1:20  % boring for loops to always count up!
+    for jx = 1:10  % boring for loops to always count up!
+      
+        [POSITIVE NEGATIVE] = gen_interval_feature;
+        FEAT = zeros(24, 24);                  % make a random feature.
+        for px = 1 : size(POSITIVE)
+            FEAT(POSITIVE(px, 1):POSITIVE(px, 3),POSITIVE(px, 2):POSITIVE(px, 4)) = 1;
+        end
+        for px = 1 : size(NEGATIVE)
+            FEAT(NEGATIVE(px, 1):NEGATIVE(px, 3),NEGATIVE(px, 2):NEGATIVE(px, 4)) = -1;
+        end
+        scores = allFaces' * FEAT(:);       % compute its score for all faces.
+         
         %generate_feature and have it return the corners of positive regions, and corners of negative regions 
         %score of face = (sum up positive - sum of negative regions) 
         
-        [POSITIVE NEGATIVE] = gen_interval_feature;                  % make a random feature.
-        scores = zeros(1, numFaces + numNonFaces);
-        for fx = 1:numFaces
-            for px = 1:size(POSITIVE, 1)
-                scores(1,fx) = scores(1,fx) + calculateIntegralImageSection(facesII(:,:,fx),POSITIVE(px,:));
-            end
-        end
-        for sx = 1:numNonFaces
-            for nx = 1:size(NEGATIVE, 1)
-                scores(1,sx+numFaces) = scores(1,sx+numFaces) - calculateIntegralImageSection(nonfacesII(:,:,sx),NEGATIVE(nx,:));
-            end
-        end
-      
         % now try different thresholds.
         thresholdList = linspace(min(scores),max(scores),1000);  % make 1000 thresholds.
         cScore = 0;    %initialize some stuff about those thresholds.
@@ -60,7 +59,7 @@ for numFeats = 1:100
             classifierResult = sign(scores-thresholdList(ix));
             
             % compute "weighted" score for each face.
-            tmp = (classifierResult' .* desiredOut .* weights)';
+            tmp = classifierResult .* desiredOut .* weights;
             
             % classifier score is the sum of these weighted scores.
             tmpScore = sum(tmp);
@@ -74,13 +73,14 @@ for numFeats = 1:100
         weakClassifier = sign(scores-cThresh);
         
         % recompute how good that actually was.
-        weakClassifierScore = sum(weakClassifier' .* desiredOut .*weights);
+        weakClassifierScore = sum(weakClassifier .* desiredOut .*weights);
         
         % if better than we've seen so far, then save it.
         if weakClassifierScore > bestWeakClassifierScore
             bestWeakClassifierScore = weakClassifierScore;
-            FINALFEAT(1, 1:size(POSITIVE,1)*size(POSITIVE,2), numFeats) = POSITIVE(:);
-            FINALFEAT(2, 1:size(NEGATIVE,1)*size(NEGATIVE,2), numFeats) = NEGATIVE(:);
+            FINALFEAT_II(1, 1:size(POSITIVE,1)*size(POSITIVE,2), numFeats) = POSITIVE(:);
+            FINALFEAT_II(2, 1:size(NEGATIVE,1)*size(NEGATIVE,2), numFeats) = NEGATIVE(:);
+            FINALFEAT(:,:,numFeats) = FEAT;
             FINALTHRESH(numFeats) = cThresh;
         end
     end
@@ -88,42 +88,38 @@ for numFeats = 1:100
     
     % ok... so the above loop picked the best of 100 possible features.
     % now, let's update the weights of the samples.
-    weights = weights .* exp(-desiredOut .* weakClassifier');
+    weights = weights .* exp(-desiredOut .* weakClassifier);
     
     % normalize the weights or they'll go crazy.
     weights = weights./sum(weights(:));
 end
-disp('training time');
-clock - startClock
+clock
 %%
 [y i] = sort(bests,2,'descend');
 FF = reshape(FINALFEAT,576,[]);         % Reshape all the good features into one matrix
-AS = zeros(1, numFaces + numNonFaces);
-        for fx = 1:numFaces
-            for px = 1:size(POSITIVE, 1)
-                AS(1,fx) = AS(1,fx) + calculateIntegralImageSection(facesII(:,:,fx),POSITIVE(px,:));
-            end
-        end
-        for sx = 1:numNonFaces
-            for nx = 1:size(NEGATIVE, 1)
-                AS(1,sx+numFaces) = scores(1,sx+numFaces) - calculateIntegralImageSection(nonfacesII(:,:,sx),NEGATIVE(nx,:));
-            end
-        end
-
-AS = FF'*allFaces;                      % Compute the score of every face with every feature.
-AT = repmat(FINALTHRESH',1,size(AS,2)); % create matrix of all thresholds, replicating it so its same size as AS
-VOTES = sign( AS - AT);                 % compute weak classification  of all faces for all features
-
-for ix = 1:size(i,2)
-   VOTES(ix,:) = VOTES(ix,:)*(y(ix)); 
+AS = zeros(100, numFaces + numNonFaces);
+for fx = 1:100
+    POSITIVE = reshape(FINALFEAT_II(1,:,fx),2,4);        
+    NEGATIVE = reshape(FINALFEAT_II(2,:,fx),2,4);
+    for sx = 1:numFaces
+%        face = facesII(:,:,sx);
+%        AS(fx,sx) = calcII(face,POSITIVE(1,:)) + calcII(face,POSITIVE(2,:)) - calcII(face,NEGATIVE(1,:)) - calcII(face,NEGATIVE(2,:));    
+    end
+    clock
+    for sx = 1:numNonFaces
+        face = nonfacesII(:,:,sx);
+%        AS(fx,sx+numFaces) = calcII(face,POSITIVE(1,:)) + calcII(face,POSITIVE(2,:)) - calcII(face,NEGATIVE(1,:)) - calcII(face,NEGATIVE(2,:));
+    end
 end
+beep
 
+%AS = FF'*allFaces;                      % Compute the score of every face with every feature.
+AT = repmat(FINALTHRESH',1,size(AS,2)); % create matrix of all thresholds, replicating it so its same size as AS
+VOTES = sign(AS - AT);                 % compute weak classification  of all faces for all features
 CLASSIFICATION = sign(sum(VOTES)-eps);  % sum the classifications.  if something has EXACTLY the same number of 
                                         % yes and no votes, then it is 0
                                         % instead of -1 of +1, so -eps
-                                        % makes sure that doesn't happen.
-
-                                        
+                                        % makes sure that doesn't happen.                                      
                                         
 disp('Number of correctly labelled faces: ');
 sum(CLASSIFICATION' == 1 &  desiredOut == 1)

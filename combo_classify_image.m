@@ -1,12 +1,12 @@
-function [] = combo_classify_image(image, FF, FINALTHRESH, featureRanking)
+function [] = combo_classify_image(image, FF, FINALTHRESH, featureRanking, prefix)
     rowRange = size(image,1) - 23;
     colRange = size(image,2) - 23;
-    %% using regulare way
+    %% using regular way
     VOTES = classify_image(image, FF, FINALTHRESH);    
-    figure, colormap gray;
-    subplot(1,3,1);
-    imagesc(image);
-    image2 = image;
+    %figure, colormap gray;
+    %subplot(1,3,1);
+    %imagesc(image);
+    %image2 = image;
     locs =  localmax(reshape(sum(VOTES),rowRange,colRange));
     for ix = 1:size(locs,2)
         row = floor(locs(ix) / colRange) + 1;
@@ -16,8 +16,9 @@ function [] = combo_classify_image(image, FF, FINALTHRESH, featureRanking)
         image2(row:row+23,col) = 255;
         image2(row:row+23,col+23) = 255;
     end
-    subplot(1,3,2);
-    imagesc(image2);
+    %subplot(1,3,2);
+    %imagesc(image2);
+    imwrite(image2, sprintf('/Users/nathan/Development/CSE559/Project3/images/%s_noncascade_%d_%d.jpg',prefix, size(image,1),size(image,2)));
     
     %% classify using cascade
     image2 = image;
@@ -31,5 +32,6 @@ function [] = combo_classify_image(image, FF, FINALTHRESH, featureRanking)
         image2(row:row+23,col) = 255;
         image2(row:row+23,col+23) = 255;
     end
-    subplot(1,3,3);
-    imagesc(image2);
+    %subplot(1,3,3);
+    %imagesc(image2);
+    imwrite(image2, sprintf('/Users/nathan/Development/CSE559/Project3/images/%s_cascade_%d_%d.jpg',prefix, size(image,1),size(image,2)));

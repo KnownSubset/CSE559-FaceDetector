@@ -18,11 +18,11 @@ function [VOTES] = cascade_classify_image(image, FF, FINALTHRESH, featureRanking
    [~, i] = sort(featureRanking,2,'descend');
    
    squaresIndexes = [1:size(squares,3)];
-   for ij = 1:10
+   for ij = 1:25
        startClock = clock;
 
        %% classify 
-       [CLASSIFICATION VOTES] = classify_squares(squares, FF(:,1:(10*ij)), FINALTHRESH(1:(10*ij)));
+       [CLASSIFICATION VOTES] = classify_squares(squares, FF(:,1:(4*ij)), FINALTHRESH(1:(4*ij)));
 
        %% build squares out of 'positive' faces for next cascade 
        newSquares = zeros(24,24, sum(CLASSIFICATION == 1));
@@ -36,8 +36,8 @@ function [VOTES] = cascade_classify_image(image, FF, FINALTHRESH, featureRanking
             face_ndx = face_ndx + 1;
            end
        end
-       disp(fprintf('cascade # %d found %d faces out of %d possible faces', ij, size(newSquares,3), size(squares,3)));
-       clock - startClock
+       %disp(fprintf('cascade # %d found %d faces out of %d possible faces', ij, size(newSquares,3), size(squares,3)));
+       %clock - startClock
        squares = newSquares;
        squaresIndexes = temp;
    end

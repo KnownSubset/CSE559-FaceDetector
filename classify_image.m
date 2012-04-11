@@ -17,10 +17,5 @@ function [VOTES] = classify_image(image, FF, FINALTHRESH)
     AT = repmat(FINALTHRESH',1,size(AS,2)); % create matrix of all thresholds, replicating it so its same size as AS
     VOTES = sign( AS - AT);                 % compute weak classification  of all faces for all features
     CLASSIFICATION = sign(sum(VOTES)-eps);  % sum the classifications.  if something has EXACTLY the same number of 
-    if (sum(CLASSIFICATION' == 1) > 0)
-        disp('Number of labelled faces: ');
-        size(image)
-        sum(CLASSIFICATION' == 1) 
-        sum(CLASSIFICATION' == -1)
-    end
+
     

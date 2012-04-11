@@ -57,13 +57,38 @@ Here are some examples of the worst classifiers:
 
 ### Results from a sample training run
 
-All faces
-Regular       :
-Integral Image:
 
-Without last 100 faces & 100 nonfaces
-Regular       :
-Integral Image:
+    Non integral images
+    ---
+    finished training 0 mins 7.679925 secs for #12876 faces
+    true positive: 74.73556 %  or 3674 out of 4916 faces
+    true negative: 85.35176 %  or 6794 out of 7960 nonfaces
+    false negatives: 25.26444 %  or 1242 out of 4916 faces
+    false positives: 14.64824 %  or 1166 out of 7960 nonfaces
+
+    finished training 0 mins 7.585394 secs for #12676 faces
+    true positive: 84 %  or 84 out of 100 faces
+    true negative: 78 %  or 78 out of 100 nonfaces
+    false negatives: 16 %  or 16 out of 100 faces
+    false positives: 22 %  or 22 out of 100 nonfaces
+
+ - - -
+
+    Integral images
+    time to calculate integral image on training data : 0.1074
+    finished training 2 mins 2.313361e+01 secs for #12876 faces
+    true positive: 8.567941e-01 % or 4212 out of 4916
+    true negative: 6.432161e-01 % or 5120 out of 7960
+    false negatives: 1.432059e-01 % or 704 out of 4916
+    false positives: 3.567839e-01 % or 2840 out of 7960
+
+    finished training 3 mins -4.012887e+01 secs for #12676 faces
+    true positive: 2.600000e-01 % or 26 out of 100
+    true negative: 9.100000e-01 % or 91 out of 100
+    false negatives: 7.400000e-01 % or 74 out of 100
+    false positives: 9.000000e-02 % or 9 out of 100
+    time to classify image pyramids squares
+
 
 ##Classification
 Once all the features have been generated from the training phase, these features can be ran against any image to detect the faces.  Each 24x24 square of the image is ran against the set of features, just as all the faces were during the training phase.  A problem occurs when the same face appears in multiple rectangle as demonstrated with these images:
@@ -90,30 +115,19 @@ Then these steps are repeated for the image pyramid, until the next image cannot
 
 ### Results from a sample classification run
 
-finished training 0 mins 7.679925 secs for #12876 faces
-true positive: 74.73556 %  or 3674 out of 4916 faces
-true negative: 85.35176 %  or 6794 out of 7960 nonfaces
-false negatives: 25.26444 %  or 1242 out of 4916 faces
-false positives: 14.64824 %  or 1166 out of 7960 nonfaces
 
-finished training 0 mins 7.585394 secs for #12676 faces
-true positive: 84 %  or 84 out of 100 faces
-true negative: 78 %  or 78 out of 100 nonfaces
-false negatives: 16 %  or 16 out of 100 faces
-false positives: 22 %  or 22 out of 100 nonfaces
-
-image size  |   time    | time using cascade
-221 250     |   1.1370  |   1.7805
-177 200     |   0.7513  |   1.3505
-142 160     |   0.4657  |   0.8743
-114 128     |   0.2546  |   0.5496
-92 103      |   0.1624  |   0.3339
-74 83       |   0.0878  |   0.2210
-60 67       |   0.0511  |   0.1128
-48 54       |   0.0247  |   0.0465
-39 44       |   0.0112  |   0.0185
-32 36       |   0.0034  |   0.0075
-26 29       |   0.000941|   0.0052
+    image size  |   time    | time using cascade
+    221 250     |   1.1370  |   1.7805
+    177 200     |   0.7513  |   1.3505
+    142 160     |   0.4657  |   0.8743
+    114 128     |   0.2546  |   0.5496
+    92 103      |   0.1624  |   0.3339
+    74 83       |   0.0878  |   0.2210
+    60 67       |   0.0511  |   0.1128
+    48 54       |   0.0247  |   0.0465
+    39 44       |   0.0112  |   0.0185
+    32 36       |   0.0034  |   0.0075
+    26 29       |   0.000941|   0.0052
 
 total time to classify image pyramids squares: 9.2413
 

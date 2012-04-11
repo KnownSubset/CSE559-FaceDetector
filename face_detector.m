@@ -56,10 +56,10 @@ CLASSIFICATION = sign(sum(VOTES)-eps);  % sum the classifications.  if something
                                         % instead of -1 of +1, so -eps
                                         % makes sure that doesn't happen.
                 
-fprintf('true positive: %d %%  or %d out of %d faces \n',sum(CLASSIFICATION' == 1 &  desiredOut == 1)/numFaces,sum(CLASSIFICATION' == 1 &  desiredOut == 1),numFaces-100);
-fprintf('true negative: %d %%  or %d out of %d faces \n', sum(CLASSIFICATION' == -1 &  desiredOut == -1)/numNonFaces, sum(CLASSIFICATION' == -1 &  desiredOut == -1),numNonFaces-100);
-fprintf('false negatives: %d %%  or %d out of %d faces \n',sum(CLASSIFICATION' == -1 &  desiredOut == 1)/numFaces,sum(CLASSIFICATION' == -1 &  desiredOut == 1),numFaces-100);
-fprintf('false positives: %d %%  or %d out of %d faces \n', sum(CLASSIFICATION' == 1 &  desiredOut == -1)/numNonFaces, sum(CLASSIFICATION' == 1 &  desiredOut == -1),numNonFaces-100);
+fprintf('true positive: %d %%  or %d out of %d faces \n',sum(CLASSIFICATION' == 1 &  desiredOut == 1)/100,sum(CLASSIFICATION' == 1 &  desiredOut == 1),100);
+fprintf('true negative: %d %%  or %d out of %d faces \n', sum(CLASSIFICATION' == -1 &  desiredOut == -1)/100, sum(CLASSIFICATION' == -1 &  desiredOut == -1),100);
+fprintf('false negatives: %d %%  or %d out of %d faces \n',sum(CLASSIFICATION' == -1 &  desiredOut == 1)/100,sum(CLASSIFICATION' == -1 &  desiredOut == 1),100);
+fprintf('false positives: %d %%  or %d out of %d faces \n', sum(CLASSIFICATION' == 1 &  desiredOut == -1)/100, sum(CLASSIFICATION' == 1 &  desiredOut == -1),100);
 
 
 

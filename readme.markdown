@@ -95,7 +95,7 @@ As we can see that the total running time for the integral images is actually hi
 
 
    ```matlab
-        %generate_feature and have it return the corners of positive regions, and corners of negative regions
+    %generate_feature and have it return the corners of positive regions, and corners of negative regions
     %score of face = (sum up positive - sum of negative regions)
     [POSITIVE NEGATIVE] = gen_interval_feature;
     scores = zeros(1, 1, numFaces + numNonFaces);
@@ -116,7 +116,7 @@ As we can see that the total running time for the integral images is actually hi
         scores = scores - (allFaces(row1, col1 ,:) + allFaces(row2, col2 ,:) - allFaces(row1, col2, :) - allFaces(row2, col1, :)) ;
     end
     scores = reshape(scores,numFaces+numNonFaces,1);
-    ```
+   ```
 
 ##Classification
 Once all the features have been generated from the training phase, these features can be ran against any image to detect the faces.  Each 24x24 square of the image is ran against the set of features, just as all the faces were during the training phase.  A problem exists that the same face appears in multiple rectangle as demonstrated with these images:

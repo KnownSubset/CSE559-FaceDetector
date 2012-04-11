@@ -24,17 +24,10 @@ CLASSIFICATION = sign(sum(VOTES)-eps);  % sum the classifications.  if something
                                         % yes and no votes, then it is 0
                                         % instead of -1 of +1, so -eps
                                         % makes sure that doesn't happen.
-                                        
-                                        
-disp('Number of correctly labelled faces: ');
-sum(CLASSIFICATION' == 1 &  desiredOut == 1)
-disp('Number of correctly labelled nonfaces: ');
-sum(CLASSIFICATION' == -1 &  desiredOut == -1)
-
-disp('Number of false negatives: ');
-sum(CLASSIFICATION' == -1 &  desiredOut == 1)
-disp('Number of false positives: ');
-sum(CLASSIFICATION' == 1 &  desiredOut == -1)
+fprintf('true positive: %d %% \n',sum(CLASSIFICATION' == 1 &  desiredOut == 1)/numFaces);
+fprintf('true negative: %d %%  \n', sum(CLASSIFICATION' == -1 &  desiredOut == -1)/numNonFaces);
+fprintf('false negatives: %d %% \n',sum(CLASSIFICATION' == -1 &  desiredOut == 1)/numFaces);
+fprintf('false positives: %d %% \n', sum(CLASSIFICATION' == 1 &  desiredOut == -1)/numNonFaces);
 
 %% now let's do it for a subset of the faces...
 testCases = [Fvec(:,size(Fvec,2)-99:size(Fvec,2)) NFvec(:,size(NFvec,2)-99:size(NFvec,2))];
@@ -62,19 +55,12 @@ CLASSIFICATION = sign(sum(VOTES)-eps);  % sum the classifications.  if something
                                         % yes and no votes, then it is 0
                                         % instead of -1 of +1, so -eps
                                         % makes sure that doesn't happen.
-                                        
-size(CLASSIFICATION)
-size(desiredOut)
-                                        
-disp('Number of correctly labelled faces: ');
-sum(CLASSIFICATION' == 1 &  desiredOut == 1)
-disp('Number of correctly labelled nonfaces: ');
-sum(CLASSIFICATION' == -1 &  desiredOut == -1)
+                
+fprintf('true positive: %d %% \n',sum(CLASSIFICATION' == 1 &  desiredOut == 1)/100);
+fprintf('true negative: %d %% \n', sum(CLASSIFICATION' == -1 &  desiredOut == -1)/100);
+fprintf('false negatives: %d %% \n',sum(CLASSIFICATION' == -1 &  desiredOut == 1)/100);
+fprintf('false positives: %d %% \n', sum(CLASSIFICATION' == 1 &  desiredOut == -1)/100);
 
-disp('Number of false negatives: ');
-sum(CLASSIFICATION' == -1 &  desiredOut == 1)
-disp('Number of false positives: ');
-sum(CLASSIFICATION' == 1 &  desiredOut == -1)
 
 %% classify an image
 %image = rgb2gray(imread('/Users/nathan/Development/CSE559/Project3/data/lotr_cast1.jpg'));

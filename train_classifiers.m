@@ -60,5 +60,5 @@ for numFeats = 1:100
     % normalize the weights or they'll go crazy.
     weights = weights./sum(weights(:));
 end
-startClock =  clock - startClock
+startClock =  clock - startClock;
 disp(sprintf('finished training %d mins %d secs for #%d faces', startClock(5), startClock(6), size(allFaces,2)));

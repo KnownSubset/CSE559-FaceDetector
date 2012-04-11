@@ -24,8 +24,8 @@ Here are some examples of the best classifiers:
      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-     0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-     0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 + + + - - - 0 0 0
+     0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0                  Contrast found by this feature could be
+     0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 + + + - - - 0 0 0                  describing the bottom right corner of the face.
      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 + + + - - - 0 0 0
      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 + + + - - - 0 0 0
      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 + + + - - - 0 0 0
@@ -48,8 +48,8 @@ Here are some examples of the best classifiers:
      0 0 0 0 0 0 0 0 0 + + + + 0 0 0 0 0 0 0 0 0 0 0
      0 0 0 0 0 0 0 0 0 + + + + 0 0 0 0 0 0 0 0 0 0 0
      0 0 0 0 0 0 0 0 0 + + + + 0 0 0 0 0 0 0 0 0 0 0
-     0 0 0 0 0 0 0 0 0 + + + + 0 0 0 0 0 0 0 0 0 0 0
-     0 0 0 0 0 0 0 0 0 + + + + 0 0 0 0 0 0 0 0 0 0 0
+     0 0 0 0 0 0 0 0 0 + + + + 0 0 0 0 0 0 0 0 0 0 0                  Contrast in the center of the image is good,
+     0 0 0 0 0 0 0 0 0 + + + + 0 0 0 0 0 0 0 0 0 0 0                  since all the faces are aligned.
      0 0 0 0 0 0 0 0 0 - - - - 0 0 0 0 0 0 0 0 0 0 0
      0 0 0 0 0 0 0 0 0 - - - - 0 0 0 0 0 0 0 0 0 0 0
      0 0 0 0 0 0 0 0 0 - - - - 0 0 0 0 0 0 0 0 0 0 0
@@ -78,10 +78,10 @@ Here are some examples of the worst classifiers:
      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-     0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-     0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-     0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-     0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+     0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0             This is a good feature as the it states the main
+     0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0             contrast is on the bottom of the sub-square.  Since
+     0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0             all faces were aligned to be in the center, this
+     0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0             performed poorly.
      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
      0 0 0 + + + + + + - - - - - - 0 0 0 0 0 0 0 0 0
      0 0 0 + + + + + + - - - - - - 0 0 0 0 0 0 0 0 0
@@ -103,9 +103,9 @@ Here are some examples of the worst classifiers:
      0 0 0 0 0 0 0 0 0 0 - - - - - - - - - - - - - -
      0 0 0 0 0 0 0 0 0 0 + + + + + + + + + + + + + +
      0 0 0 0 0 0 0 0 0 0 + + + + + + + + + + + + + +
-     0 0 0 0 0 0 0 0 0 0 + + + + + + + + + + + + + +
-     0 0 0 0 0 0 0 0 0 0 + + + + + + + + + + + + + +
-     0 0 0 0 0 0 0 0 0 0 + + + + + + + + + + + + + +
+     0 0 0 0 0 0 0 0 0 0 + + + + + + + + + + + + + +             This is a good feature as the it states the main
+     0 0 0 0 0 0 0 0 0 0 + + + + + + + + + + + + + +             contrast is on the far right edge of the sub-square
+     0 0 0 0 0 0 0 0 0 0 + + + + + + + + + + + + + +             instead of the center.
      0 0 0 0 0 0 0 0 0 0 - - - - - - - - - - - - - -
      0 0 0 0 0 0 0 0 0 0 - - - - - - - - - - - - - -
      0 0 0 0 0 0 0 0 0 0 - - - - - - - - - - - - - -

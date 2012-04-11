@@ -50,41 +50,60 @@ allFaces(:,:,101:200) = nonfacesII(:,:,numNonFaces+1:numNonFaces+100);
 calc_score_II(allFaces,[ones(1,100) -ones(1,100)]', FINALFEAT_II, FINALTHRESH, featureRanking, 100, 100);
 
 %% classify an image
-%image = rgb2gray(imresize(imread('http://i.imgur.com/02npE.jpg'),.5));
-% image2 = imresize(image, .25);
-% %while (size(image2,1) > 24 && size(image2,2) > 24)
-%     squares = zeros(24,24,(size(image2,1)-23)*(size(image2,2)-23));
-%     squares2 = zeros(24*24,(size(image2,1)-23)*(size(image2,2)-23));
-%     rowRange = size(image2,1) - 23;
-%     colRange = size(image2,2) - 23;
-%     for ix = 1:rowRange
-%         for iy = 1:colRange
-%             squares(:,:,(ix-1)*colRange + iy) = image2(ix:ix+23, iy:iy+23);
-%             squares2(:,(ix-1)*colRange + iy) = reshape(squares(:,:,(ix-1)*colRange + iy),576,[]);
-%         end
-%     end
-%     AS = FF'*squares2;                      % Compute the score of every face with every feature.
-%     AT = repmat(FINALTHRESH',1,size(AS,2)); % create matrix of all thresholds, replicating it so its same size as AS
-%     VOTES = sign( AS - AT);                 % compute weak classification  of all faces for all features
-%     CLASSIFICATION = sign(sum(VOTES)-eps);  % sum the classifications.  if something has EXACTLY the same number of 
-%     if (sum(CLASSIFICATION' == 1) > 0)
-%         disp('Number of labelled faces: ');
-%         size(image)
-%         sum(CLASSIFICATION' == 1) 
-%         sum(CLASSIFICATION' == -1)
-%     end
-%     
-%     locs =  localmax(reshape(sum(VOTES),rowRange,colRange));
-%     for ix = 1:size(locs,2)
-%         row = round(locs(ix) / colRange) + 1;
-%         col = round(mod(locs(ix),colRange))+1;
-%         image2(row,col:col+23) = 255;
-%         image2(row+23,col:col+23) = 255;
-%         image2(row:row+23,col) = 255;
-%         image2(row:row+23,col+23) = 255;
-%     end
-%     figure, colormap gray;
-%     imagesc(image2);
+image2 = im2double(image);
+while (size(image2,1) > 24 && size(image2,2) > 24)
+    totalSquares = (size(image2,1)-23)*(size(image2,2)-23);
+    squares = zeros(24,24,totalSquares);
+    rowRange = size(image2,1) - 23;
+    colRange = size(image2,2) - 23;
+    for ix = 1:rowRange
+        for iy = 1:colRange
+            squares(:,:,(ix-1)*colRange + iy) = cumsum(cumsum(image2(ix:ix+23, iy:iy+23),1),2);
+        end
+    end
+    
+    AS = zeros(100,1, totalSquares);
+    for fx = 1:100
+        POSITIVE = reshape(FINALFEAT_II(1,:,fx),4,2)';        
+        NEGATIVE = reshape(FINALFEAT_II(2,:,fx),4,2)';
+        for px = 1 : 2
+            points = POSITIVE(px, 1:4);
+            row1 = points(1);
+            row2 = points(3);
+            col1 = points(2);
+            col2 = points(4);
+            if (row1 > 0 )
+                AS(fx,1,:) = AS(fx,1,:) + (squares(row1, col1 ,:) + squares(row2, col2 ,:) - squares(row1, col2, :) - squares(row2, col1, :) );
+            end
+        end
+        for px = 1 : 2
+            points = NEGATIVE(px, 1:4);
+            row1 = points(1);
+            row2 = points(3);
+            col1 = points(2);
+            col2 = points(4);
+            if (row1 > 0)
+                AS(fx,1,:) = AS(fx,1,:) - (squares(row1, col1 ,:) + squares(row2, col2 ,:) - squares(row1, col2, :) - squares(row2, col1, :)) ;
+            end
+        end
+    end
+    beep
 
-%    image2 = imresize(image, size(image2)*.5);
-%end
+    AS = reshape(AS, 100, totalSquares);
+    AT = repmat(FINALTHRESH',1,size(AS,2)); % create matrix of all thresholds, replicating it so its same size as AS
+    VOTES = sign(AS - AT);                     
+    image2 = imresize(image, size(image2));
+    locs =  localmax(reshape(sum(VOTES),rowRange,colRange));
+    for ix = 1:size(locs,2)
+        row = round(locs(ix) / colRange) + 1;
+        col = round(mod(locs(ix),colRange))+1;
+        image2(row,col:col+23) = 255;
+        image2(row+23,col:col+23) = 255;
+        image2(row:row+23,col) = 255;
+        image2(row:row+23,col+23) = 255;
+    end
+    figure, colormap gray;
+    imagesc(image2);
+
+    image2 = im2double(imresize(image, size(image2)*.8));
+end

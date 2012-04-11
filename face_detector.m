@@ -68,10 +68,10 @@ fprintf('false positives: %d %% \n', sum(CLASSIFICATION' == 1 &  desiredOut == -
 image2 = image;
 %image3 = rgb2gray(imread('/Users/nathan/Development/CSE559/Project3/data/princess_bride.jpg'));
 %%LOTR cast
-% startClock = clock;
-% while (size(image2,1) > 24 && size(image2,2) > 24)
-%     combo_classify_image(image2, FF, FINALTHRESH,featureRanking, 'lotr_cast2');
-%     image2 = imresize(image, size(image2)*.8);
-% end
-% disp('time to classify image pyramids squares ');
-% clock-startClock
+startClock = clock;
+while (size(image2,1) > 24 && size(image2,2) > 24)
+    combo_classify_image(image2, FF, FINALTHRESH,featureRanking, 'lotr_cast2');
+    image2 = imresize(image, size(image2)*.8);
+end
+disp('time to classify image pyramids squares ');
+clock-startClock

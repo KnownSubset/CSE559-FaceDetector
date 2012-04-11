@@ -18,6 +18,9 @@ images = ['http://i.imgur.com/QHXMZ.jpg';
         'http://i.imgur.com/k8Skoh.jpg';
         'http://i.imgur.com/REcqmh.jpg';
         'http://i.imgur.com/jgv8M.jpg';
+        'http://i.imgur.com/oigQ1.jpg';
+        'http://i.imgur.com/koYkt.jpg'; %lamha & rogers
+        'http://ia.media-imdb.com/images/M/MV5BMTc4ODc4NTQ1N15BMl5BanBnXkFtZTcwNDUxODUyMw@@._V1._SX640_SY948_.jpg';
         'http://i.imgur.com/vFxN2.jpg'];
 
 image = rgb2gray(imread(images(1)));

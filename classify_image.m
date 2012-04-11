@@ -1,4 +1,4 @@
-function [squares CLASSIFICATION] = classify_image(image, FF, FINALTHRESH)
+function [VOTES] = classify_image(image, FF, FINALTHRESH)
     image2 = image;
     squares = zeros(24,24,(size(image2,1)-23)*(size(image2,2)-23));
     squares2 = zeros(24*24,(size(image2,1)-23)*(size(image2,2)-23));
@@ -23,17 +23,4 @@ function [squares CLASSIFICATION] = classify_image(image, FF, FINALTHRESH)
         sum(CLASSIFICATION' == 1) 
         sum(CLASSIFICATION' == -1)
     end
-    figure, colormap gray;
-    subplot(1,2,1);
-    imagesc(image2);
-    locs =  localmax(reshape(sum(VOTES),rowRange,colRange));
-    for ix = 1:size(locs,2)
-        row = floor(locs(ix) / colRange) + 1;
-        col = floor(mod(locs(ix),colRange))+1;
-        image2(row,col:col+23) = 255;
-        image2(row+23,col:col+23) = 255;
-        image2(row:row+23,col) = 255;
-        image2(row:row+23,col+23) = 255;
-    end
-    subplot(1,2,2);
-    imagesc(image2);
+    

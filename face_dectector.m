@@ -33,7 +33,7 @@ weights = weights./sum(weights(:));
 % initial some variables
 FINALFEAT = [];
 FINALTHRESH = [];
-bests = [];
+featureRanking = [];
 clock
 for numFeats = 1:100
    
@@ -83,7 +83,7 @@ for numFeats = 1:100
             FINALTHRESH(numFeats) = cThresh;
         end
     end
-    bests(numFeats) = bestWeakClassifierScore;
+    featureRanking(numFeats) = bestWeakClassifierScore;
     
     % ok... so the above loop picked the best of 100 possible features.
     % now, let's update the weights of the samples.
@@ -94,9 +94,9 @@ for numFeats = 1:100
 end
 clock
 %%
-[y i] = sort(bests,2,'descend');
+[y i] = sort(featureRanking,2,'descend');
 FF = reshape(FINALFEAT,576,[]);         % Reshape all the good features into one matrix
-AS = FF'*allFaces;                      % Compute the score of every face with every feature.
+AS = FF'*[Fvec NFvec];                      % Compute the score of every face with every feature.
 AT = repmat(FINALTHRESH',1,size(AS,2)); % create matrix of all thresholds, replicating it so its same size as AS
 VOTES = sign( AS - AT);                 % compute weak classification  of all faces for all features
 CLASSIFICATION = sign(sum(VOTES)-eps);  % sum the classifications.  if something has EXACTLY the same number of 
@@ -125,7 +125,7 @@ image2 = imresize(image, .75);
 disp('classify squares');
 startClock = clock
 while (size(image2,1) > 24 && size(image2,2) > 24)
-    classify_image(image2, FF, FINALTHRESH);
+    combo_classify_image(image2, FF, FINALTHRESH,featureRanking);
     image2 = imresize(image, size(image2)*.5);
 end
 

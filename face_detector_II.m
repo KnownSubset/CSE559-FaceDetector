@@ -103,9 +103,9 @@ while (size(image2,1) > 24 && size(image2,2) > 24)
         image2(row:row+23,col) = 255;
         image2(row:row+23,col+23) = 255;
     end
-    figure, colormap gray;
-    imagesc(image2);
-
+    %figure, colormap gray;
+    %imagesc(image2);
+    imwrite(image2, sprintf('/Users/nathan/Development/CSE559/Project3/images/%s_II_%d_%d.jpg',prefix, size(image2,1),size(image2,2)));
     image2 = im2double(imresize(image, size(image2)*.8));
 end
 

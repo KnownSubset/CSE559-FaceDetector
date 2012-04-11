@@ -21,10 +21,10 @@ function [VOTES] = cascade_classify_image_II(image, FINALFEAT_II, FINALTHRESH, f
    squaresIndexes = [1:size(squares,3)];
    
    %% classify 
-   for ij = 1:100    
+   for ij = 1:10    
         startClock = clock;
         AS = zeros(100,1, rowRange * colRange);
-        for fx = 1:ij*100
+        for fx = 1:ij*10
             POSITIVE = reshape(FINALFEAT_II(1,:,i(fx)),4,2)';        
             NEGATIVE = reshape(FINALFEAT_II(2,:,i(fx)),4,2)';
             for px = 1 : 2
@@ -48,11 +48,8 @@ function [VOTES] = cascade_classify_image_II(image, FINALFEAT_II, FINALTHRESH, f
                 end
             end
         end
-        beep
 
         AS = reshape(AS, 100, rowRange * colRange);
-
-        %AS = FF'*allFaces;                      % Compute the score of every face with every feature.
         AT = repmat(FINALTHRESH',1,size(AS,2)); % create matrix of all thresholds, replicating it so its same size as AS
         VOTES = sign(AS - AT);                 % compute weak classification  of all faces for all features
         CLASSIFICATION = sign(sum(VOTES)-eps);  % sum the classifications.  if something has EXACTLY the same number of 
@@ -65,13 +62,11 @@ function [VOTES] = cascade_classify_image_II(image, FINALFEAT_II, FINALTHRESH, f
        for ix = 1:size(squares,3)
            if (CLASSIFICATION(ix) == 1)
             temp(face_ndx) = squaresIndexes(ix);
-            newSquares(:, :, face_ndx) = squares(:,:,ix);
             face_ndx = face_ndx + 1;
            end
        end
-       %disp(fprintf('cascade # %d found %d faces out of %d possible faces', ij, size(newSquares,3), size(squares,3)));
-       %clock - startClock
-       squares = newSquares;
+       disp(fprintf('cascade # %d found %d faces out of %d possible faces', ij, size(newSquares,3), size(squares,3)));
+       clock - startClock
        squaresIndexes = temp;
    end
    

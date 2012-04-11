@@ -15,7 +15,108 @@ There are more noval approaches to learning classifier than the approach I took 
 
 Here are some examples of the best classifiers:
 
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 + + + - - - 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 + + + - - - 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 + + + - - - 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 + + + - - - 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 + + + - - - 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 + + + - - - 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 - - - + + + 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 - - - + + + 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 - - - + + + 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 - - - + + + 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 - - - + + + 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 - - - + + + 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 + + + + 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 + + + + 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 + + + + 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 + + + + 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 + + + + 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 + + + + 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 + + + + 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 - - - - 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 - - - - 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 - - - - 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 - - - - 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 - - - - 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 - - - - 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 - - - - 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
 Here are some examples of the worst classifiers:
+
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 + + + + + + - - - - - - 0 0 0 0 0 0 0 0 0
+ 0 0 0 + + + + + + - - - - - - 0 0 0 0 0 0 0 0 0
+ 0 0 0 + + + + + + - - - - - - 0 0 0 0 0 0 0 0 0
+ 0 0 0 + + + + + + - - - - - - 0 0 0 0 0 0 0 0 0
+ 0 0 0 + + + + + + - - - - - - 0 0 0 0 0 0 0 0 0
+ 0 0 0 + + + + + + - - - - - - 0 0 0 0 0 0 0 0 0
+ 0 0 0 + + + + + + - - - - - - 0 0 0 0 0 0 0 0 0
+ 0 0 0 + + + + + + - - - - - - 0 0 0 0 0 0 0 0 0
+ 
+ 
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 - - - - - - - - - - - - - -
+ 0 0 0 0 0 0 0 0 0 0 - - - - - - - - - - - - - -
+ 0 0 0 0 0 0 0 0 0 0 - - - - - - - - - - - - - -
+ 0 0 0 0 0 0 0 0 0 0 - - - - - - - - - - - - - -
+ 0 0 0 0 0 0 0 0 0 0 - - - - - - - - - - - - - -
+ 0 0 0 0 0 0 0 0 0 0 + + + + + + + + + + + + + +
+ 0 0 0 0 0 0 0 0 0 0 + + + + + + + + + + + + + +
+ 0 0 0 0 0 0 0 0 0 0 + + + + + + + + + + + + + +
+ 0 0 0 0 0 0 0 0 0 0 + + + + + + + + + + + + + +
+ 0 0 0 0 0 0 0 0 0 0 + + + + + + + + + + + + + +
+ 0 0 0 0 0 0 0 0 0 0 - - - - - - - - - - - - - -
+ 0 0 0 0 0 0 0 0 0 0 - - - - - - - - - - - - - -
+ 0 0 0 0 0 0 0 0 0 0 - - - - - - - - - - - - - -
+ 0 0 0 0 0 0 0 0 0 0 - - - - - - - - - - - - - -
+ 0 0 0 0 0 0 0 0 0 0 - - - - - - - - - - - - - -
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 
 * Training Pseudo-code
 
@@ -123,7 +224,7 @@ Once all the features have been generated from the training phase, these feature
 
   ![face1](https://github.com/KnownSubset/CSE559-facedetector/raw/master/face1.jpg "bad face") ![face2](https://github.com/KnownSubset/CSE559-facedetector/raw/master/face2.jpg "good face") ![face3](https://github.com/KnownSubset/CSE559-facedetector/raw/master/face3.jpg "bad face")
 
-It's quite likely that the same face will be detected several times for multiple levels of resolution.  To help mitigate this factor, the maximum response from within a local area is usually determined to be the face.  It also helps to have really good features that will not pick up half a face as being a face.   To calculate the local maximum I used this [code](http://stackoverflow.com/questions/1856197/how-can-i-find-local-maxima-in-an-image-in-matlab), it works reasonably well as you see from the results below.  It would generate better results if it would work within a threshold as it is still easy to recognize that multiple subsquares that overlap should be merged as a possible face.
+It's quite likely that the same face will be detected several times for multiple levels of resolution.  To help mitigate this factor, the maximum response from within a local area is usually determined to be the face.  It also helps to have really good features that will not pick up half a face as being a face.   To calculate the local maximum I used this [code](http://stackoverflow.com/questions/1856197/how-can-i-find-local-maxima-in-an-image-in-matlab), it works reasonably well as you see from the results below.  It would generate better results if it would work within a threshold as it is still easy to recognize that multiple subsquares that overlap should be merged as a possible face. If more time was available, I code try to implement the approach listed in the paper for "Integration of Multiple Detections" by merging overlapping regions into a single detection.
 Then these steps are repeated for the image pyramid, until the next image cannot contain a 24x24 pixel feature.
 
 
@@ -161,6 +262,8 @@ To determine which filters to apply first, I sorted the filters based upon its b
     26 29       |   0.000941|   0.0052
 
 total time to classify image pyramids squares: 9.2413
+
+I used impyramid that 80% smaller than the next layer
 
 ###Integral Images
  ![Integral Image](https://github.com/KnownSubset/CSE559-facedetector/raw/master/integral_image_example.jpg "Integral Image")
@@ -234,3 +337,4 @@ Both of matlab functions use a mix of other functions contained within the same 
  - - -
  ![lotr 441x500](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/lotr_cast1_cascade_27_29.jpg "lotr 441x500")
  ![lotr 441x500](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/lotr_cast1_noncascade_27_29.jpg "lotr 441x500")
+ = = =

@@ -59,7 +59,7 @@ Here are some examples of the worst classifiers:
 
 
     Non integral images
-    ---
+
     finished training 0 mins 7.679925 secs for #12876 faces
     true positive: 74.73556 %  or 3674 out of 4916 faces
     true negative: 85.35176 %  or 6794 out of 7960 nonfaces
@@ -76,6 +76,7 @@ Here are some examples of the worst classifiers:
  - - -
 
     Integral images
+
     time to calculate integral image on training data : 0.1074
     finished training 2 mins 2.313361e+01 secs for #12876 faces
     true positive: 8.567941e-01 % or 4212 out of 4916
@@ -90,7 +91,32 @@ Here are some examples of the worst classifiers:
     false positives: 9.000000e-02 % or 9 out of 100
     total running time ???
 
-As we can see that the total running time for the integral images is lower than the running time not using integral images.
+As we can see that the total running time for the integral images is actually higher than the running time not using integral images. This is due to matlab being heavily optimized for matrix operations and the integral operations having iterate through the sets of points that comprised the positive and negative regions as demonstrated through this psuedo-code.
+
+    ```matlab
+    %generate_feature and have it return the corners of positive regions, and corners of negative regions
+    %score of face = (sum up positive - sum of negative regions)
+    [POSITIVE NEGATIVE] = gen_interval_feature;
+
+    scores = zeros(1, 1, numFaces + numNonFaces);
+    for px = 1 : size(POSITIVE,1)
+        points = POSITIVE(px, 1:4);
+        row1 = points(1);
+        row2 = points(3);
+        col1 = points(2);
+        col2 = points(4);
+        scores = scores + (allFaces(row1, col1 ,:) + allFaces(row2, col2 ,:) - allFaces(row1, col2, :) - allFaces(row2, col1, :) );
+    end
+    for px = 1 : size(NEGATIVE,1)
+        points = NEGATIVE(px, 1:4);
+        row1 = points(1);
+        row2 = points(3);
+        col1 = points(2);
+        col2 = points(4);
+        scores = scores - (allFaces(row1, col1 ,:) + allFaces(row2, col2 ,:) - allFaces(row1, col2, :) - allFaces(row2, col1, :)) ;
+    end
+    scores = reshape(scores,numFaces+numNonFaces,1);
+    ```
 
 ##Classification
 Once all the features have been generated from the training phase, these features can be ran against any image to detect the faces.  Each 24x24 square of the image is ran against the set of features, just as all the faces were during the training phase.  A problem exists that the same face appears in multiple rectangle as demonstrated with these images:
@@ -115,6 +141,8 @@ Then these steps are repeated for the image pyramid, until the next image cannot
 ### Cascade Filters
 
 The idea of using cascade filters is to help quickly reduce the search space by applying a subset of filters.  The subsquares of an image that are labeled as faces are then passed on to the next set of filters.  The process repeats until all filters have been processed. ![cascade](https://github.com/KnownSubset/CSE559-facedetector/raw/master/cascade_filter.jpg "cascade")
+
+To determine which filters to apply first, I sorted the filters based upon its bestClassifierScore that was generated during the training phase.  I tried various schemes of how to apply the filters.
 
 ### Results from a sample classification run
 

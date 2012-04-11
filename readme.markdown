@@ -94,11 +94,6 @@ Here are some examples of the worst classifiers:
 As we can see that the total running time for the integral images is actually higher than the running time not using integral images. This is due to matlab being heavily optimized for matrix operations and the integral operations having iterate through the sets of points that comprised the positive and negative regions as demonstrated through this psuedo-code.
 
     ```matlab
-
-    ```
-
-
-    ```matlab
     %faces & nonfaces are already available
     FINALFEAT = [];
     FINALTHRESH = [];

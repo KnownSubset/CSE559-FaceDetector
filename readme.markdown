@@ -112,6 +112,10 @@ Then these steps are repeated for the image pyramid, until the next image cannot
     CLASSIFICATION = sign(sum(VOTES));                  % sum the classifications.
     ```
 
+### Cascade Filters
+
+The idea of using cascade filters is to help quickly reduce the search space by applying a subset of filters.  The subsquares of an image that are labeled as faces are then passed on to the next set of filters.  The process repeats until all filters have been processed. ![cascade](https://github.com/KnownSubset/CSE559-facedetector/raw/master/cascade_filter.jpg "cascade")
+
 ### Results from a sample classification run
 
 
@@ -135,6 +139,8 @@ total time to classify image pyramids squares: 9.2413
 Integral areas (or summed area tables) are really useful for in the calculation because you can calculate the response of image to feature using four calculations for every subsquare, instead of 24x24 operations for every subsquare.  However I did experience a set back with this as I during the responses for every subsquare within a image.  I was doing each subsquares calculation seperatly and was befuddled as to why I was not seeing similar or better performance than the original method.  Then I finally realized that I could perform the calculation for all subsquares at the same time.  This was a lesson well learned from using matlab, that operations are faster on array then on each individual element of the array.
 
 Another nice part of the integral image is that it is not neccessary to calculate the image pyramid to find "larger faces" than at 24x24 pixels.  Due to the fact that integral image is already calculated it is just as effecient to upsize the features, since it will still only require four operations to calculate the response of subsquare to a feature.  As an aside, I did not upsize the features, and I am sure if I had more time to implement the functionality it would lead to a performance boost the integral images of the image pyramid would not have to be calculated.
+
+
 
 ## Results
 There are two functions that will run to train the classifiers, report on the accuracy of the classifiers, and run the classifiers against an image.

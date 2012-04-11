@@ -9,9 +9,9 @@ _______
 
 ##Training
 
-In the training phase, using the generated rectangle, I determined its response against all of the faces and nonfaces.  The more images that it correctly identified will give it a higher score.  After the training phase determines the features that have the best scores, I combined them into a single feature.
+In the training phase, using the generated rectangle, I determined its response against all of the faces and non-faces.  The more images that it correctly identified will give it a higher score.  After the training phase determines the features that have the best scores, I combined them into a single feature.
 
-There are more noval approaches to learning classifier than the approach I took to learning the classifier.  If I had more time I would go back and correctly implement the Ada-Boost that was metioned in the paper, as I would expect to generated better classifiers from these learning functions.
+There are more novel approaches to learning classifier than the approach I took to learning the classifier.  If I had more time I would go back and correctly implement the Ada-Boost that was mentioned in the paper, as I would expect to generated better classifiers from these learning functions.
 
 Here are some examples of the best classifiers:
 
@@ -78,7 +78,7 @@ Here are some examples of the worst classifiers:
      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-     0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0             This is a good feature as the it states the main
+     0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0             This is a poor feature as the it states the main
      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0             contrast is on the bottom of the sub-square.  Since
      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0             all faces were aligned to be in the center, this
      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0             performed poorly.
@@ -103,7 +103,7 @@ Here are some examples of the worst classifiers:
      0 0 0 0 0 0 0 0 0 0 - - - - - - - - - - - - - -
      0 0 0 0 0 0 0 0 0 0 + + + + + + + + + + + + + +
      0 0 0 0 0 0 0 0 0 0 + + + + + + + + + + + + + +
-     0 0 0 0 0 0 0 0 0 0 + + + + + + + + + + + + + +             This is a good feature as the it states the main
+     0 0 0 0 0 0 0 0 0 0 + + + + + + + + + + + + + +             This is a poor feature as the it states the main
      0 0 0 0 0 0 0 0 0 0 + + + + + + + + + + + + + +             contrast is on the far right edge of the sub-square
      0 0 0 0 0 0 0 0 0 0 + + + + + + + + + + + + + +             instead of the center.
      0 0 0 0 0 0 0 0 0 0 - - - - - - - - - - - - - -
@@ -192,7 +192,7 @@ Here are some examples of the worst classifiers:
     false positives: 9.000000e-02 % or 9 out of 100
     total running time ???
 
-As we can see that the total running time for the integral images is actually higher than the running time not using integral images. This is due to matlab being heavily optimized for matrix operations and the integral operations having iterate through the sets of points that comprised the positive and negative regions as demonstrated through this psuedo-code.
+As we can see that the total running time for the integral images is actually higher than the running time not using integral images. This is due to matlab being heavily optimized for matrix operations and the integral operations having iterate through the sets of points that comprised the positive and negative regions as demonstrated through this pseudo-code.
 
 
    ```matlab
@@ -269,9 +269,9 @@ I used image pyramid that 80% smaller than the next layer.
 
 ###Integral Images
  ![Integral Image](https://github.com/KnownSubset/CSE559-facedetector/raw/master/integral_image_example.jpg "Integral Image")
-Integral areas (or summed area tables) are really useful for in the calculation because you can calculate the response of image to feature using four calculations for every subsquare, instead of 24x24 operations for every subsquare.  However I did experience a set back with this as I during the responses for every subsquare within a image.  I was doing each subsquares calculation seperatly and was befuddled as to why I was not seeing similar or better performance than the original method.  Then I finally realized that I could perform the calculation for all subsquares at the same time.  This was a lesson well learned from using matlab, that operations are faster on array then on each individual element of the array.
+Integral areas (or summed area tables) are really useful for in the calculation because you can calculate the response of image to feature using four calculations for every subsquare, instead of 24x24 operations for every sub-square.  However I did experience a set back with this as I during the responses for every subsquare within a image.  I was doing each subsquares calculation separately and was befuddled as to why I was not seeing similar or better performance than the original method.  Then I finally realized that I could perform the calculation for all subsquares at the same time.  This was a lesson well learned from using matlab, that operations are faster on array then on each individual element of the array.
 
-Another nice part of the integral image is that it is not necessary to calculate the image pyramid to find "larger faces" than at 24x24 pixels.  Due to the fact that integral image is already calculated it is just as effecient to upsize the features, since it will still only require four operations to calculate the response of subsquare to a feature.  As an aside, I did not upsize the features, and I am sure if I had more time to implement the functionality it would lead to a performance boost the integral images of the image pyramid would not have to be calculated.
+Another nice part of the integral image is that it is not necessary to calculate the image pyramid to find "larger faces" than at 24x24 pixels.  Due to the fact that integral image is already calculated it is just as efficient to upsize the features, since it will still only require four operations to calculate the response of subsquare to a feature.  As an aside, I did not upsize the features, and I am sure if I had more time to implement the functionality it would lead to a performance boost the integral images of the image pyramid would not have to be calculated.
 
 
 

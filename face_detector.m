@@ -1,4 +1,4 @@
-function [] = face_detector(faces, nonfaces, image)
+function [] = face_detector(faces, nonfaces, image, prefix)
 
 Fvec = reshape(faces,24*24,[]);
 NFvec = reshape(nonfaces,24*24,[]);
@@ -71,7 +71,7 @@ image2 = image;
 %%LOTR cast
 startClock = clock;
 while (size(image2,1) > 24 && size(image2,2) > 24)
-    combo_classify_image(image2, FF, FINALTHRESH,featureRanking, 'golf');
+    combo_classify_image(image2, FF, FINALTHRESH,featureRanking, prefix);
     image2 = imresize(image, size(image2)*.8);
 end
 disp('time to classify image pyramids squares ');

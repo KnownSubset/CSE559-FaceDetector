@@ -1,4 +1,4 @@
-function [] = face_detector_II(faces, nonfaces, image)
+function [] = face_detector_II(faces, nonfaces, image, prefix)
 %% generate interval images for each face and nonface
 startClock = clock;
 facesII = zeros(size(faces));

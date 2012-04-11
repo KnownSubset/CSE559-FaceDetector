@@ -71,6 +71,7 @@ Here are some examples of the worst classifiers:
     true negative: 78 %  or 78 out of 100 nonfaces
     false negatives: 16 %  or 16 out of 100 faces
     false positives: 22 %  or 22 out of 100 nonfaces
+    total running time ???
 
  - - -
 
@@ -87,20 +88,18 @@ Here are some examples of the worst classifiers:
     true negative: 9.100000e-01 % or 91 out of 100
     false negatives: 7.400000e-01 % or 74 out of 100
     false positives: 9.000000e-02 % or 9 out of 100
-    time to classify image pyramids squares
+    total running time ???
 
+As we can see that the total running time for the integral images is lower than the running time not using integral images.
 
 ##Classification
-Once all the features have been generated from the training phase, these features can be ran against any image to detect the faces.  Each 24x24 square of the image is ran against the set of features, just as all the faces were during the training phase.  A problem occurs when the same face appears in multiple rectangle as demonstrated with these images:
+Once all the features have been generated from the training phase, these features can be ran against any image to detect the faces.  Each 24x24 square of the image is ran against the set of features, just as all the faces were during the training phase.  A problem exists that the same face appears in multiple rectangle as demonstrated with these images:
 
   ![face1](https://github.com/KnownSubset/CSE559-facedetector/raw/master/face1.jpg "bad face") ![face2](https://github.com/KnownSubset/CSE559-facedetector/raw/master/face2.jpg "good face") ![face3](https://github.com/KnownSubset/CSE559-facedetector/raw/master/face3.jpg "bad face")
 
-To mitigate this factor, the maximum response from within a local area is usually determined to be the face.  It also helps to have really good features that will not pick up half a face as being a face.   To calculate the local maximum I used this [code](http://stackoverflow.com/questions/1856197/how-can-i-find-local-maxima-in-an-image-in-matlab), it works reasonably well as you see from the results below.  It would generate better results if it would work within a threshold as it is still easy to recognize that multiple subsquares that overlap should be merged as a possible face.
+It's quite likely that the same face will be detected several times for multiple levels of resolution.  To help mitigate this factor, the maximum response from within a local area is usually determined to be the face.  It also helps to have really good features that will not pick up half a face as being a face.   To calculate the local maximum I used this [code](http://stackoverflow.com/questions/1856197/how-can-i-find-local-maxima-in-an-image-in-matlab), it works reasonably well as you see from the results below.  It would generate better results if it would work within a threshold as it is still easy to recognize that multiple subsquares that overlap should be merged as a possible face.
 Then these steps are repeated for the image pyramid, until the next image cannot contain a 24x24 pixel feature.
 
-    Re-train the classifier without the last 100 example faces and without the last 100 example non-faces, then use those 200 examples as "test-cases", and report classification accuracy (False Positive, True Positive, False Negative, and True Negative percentages).
-    Report on total running time of both the training phase and the per-image testing phase.
-    Report on running time when using the integral images, versus not using the integral images. 
 
 * Classification pseudo-code
 

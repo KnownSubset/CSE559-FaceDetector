@@ -241,9 +241,11 @@ Then these steps are repeated for the image pyramid, until the next image cannot
 
 ### Cascade Filters
 
-The idea of using cascade filters is to help quickly reduce the search space by applying a subset of filters.  The subsquares of an image that are labeled as faces are then passed on to the next set of filters.  The process repeats until all filters have been processed. ![cascade](https://github.com/KnownSubset/CSE559-facedetector/raw/master/cascade_filter.jpg "cascade")
+The idea of using cascade filters is to help quickly reduce the search space by applying a subset of filters.  The sub-squares of an image that are labeled as faces are then passed on to the next set of filters.  The process repeats until all filters have been processed. ![cascade](https://github.com/KnownSubset/CSE559-facedetector/raw/master/cascade_filter.jpg "cascade")
 
-To determine which filters to apply first, I sorted the filters based upon its bestClassifierScore that was generated during the training phase.  I tried various schemes of how to apply the filters.
+To determine which filters to apply first, I sorted the filters based upon its bestClassifierScore that was generated during the training phase.  I tried various schemes of how to apply the filters, such as run blocks by increasing the # of filters by 10 each pass, or by increasing by 2 with each pass.  The running in blocks of ten provided a reasonable face detection and smaller processing time.  If I could have implemented the cascade in the manner to actually not requiring reprocessing the filters already processed, then I speculate I would see faster processing time by using cascades.
+
+The processed images at the bottom of the report demonstrate the higher success rate of face detection.
 
 ### Results from a sample classification run
 
@@ -263,13 +265,13 @@ To determine which filters to apply first, I sorted the filters based upon its b
 
 total time to classify image pyramids squares: 9.2413
 
-I used impyramid that 80% smaller than the next layer
+I used image pyramid that 80% smaller than the next layer.
 
 ###Integral Images
  ![Integral Image](https://github.com/KnownSubset/CSE559-facedetector/raw/master/integral_image_example.jpg "Integral Image")
 Integral areas (or summed area tables) are really useful for in the calculation because you can calculate the response of image to feature using four calculations for every subsquare, instead of 24x24 operations for every subsquare.  However I did experience a set back with this as I during the responses for every subsquare within a image.  I was doing each subsquares calculation seperatly and was befuddled as to why I was not seeing similar or better performance than the original method.  Then I finally realized that I could perform the calculation for all subsquares at the same time.  This was a lesson well learned from using matlab, that operations are faster on array then on each individual element of the array.
 
-Another nice part of the integral image is that it is not neccessary to calculate the image pyramid to find "larger faces" than at 24x24 pixels.  Due to the fact that integral image is already calculated it is just as effecient to upsize the features, since it will still only require four operations to calculate the response of subsquare to a feature.  As an aside, I did not upsize the features, and I am sure if I had more time to implement the functionality it would lead to a performance boost the integral images of the image pyramid would not have to be calculated.
+Another nice part of the integral image is that it is not necessary to calculate the image pyramid to find "larger faces" than at 24x24 pixels.  Due to the fact that integral image is already calculated it is just as effecient to upsize the features, since it will still only require four operations to calculate the response of subsquare to a feature.  As an aside, I did not upsize the features, and I am sure if I had more time to implement the functionality it would lead to a performance boost the integral images of the image pyramid would not have to be calculated.
 
 
 
@@ -282,6 +284,8 @@ There are two functions that will run to train the classifiers, report on the ac
 Both of matlab functions use a mix of other functions contained within the same repository, some of which I am surprised work all together.
 
 ### Processed images
+
+ It can be seen that the cascade filters did a better job at identifying faces than the non cascade that look more like white washed images.
 
  ![lotr 441x500](https://github.com/KnownSubset/CSE559-facedetector/raw/master/data/lotr_cast1.jpg "lotr 441x500")
 

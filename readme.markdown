@@ -94,28 +94,44 @@ Here are some examples of the worst classifiers:
 As we can see that the total running time for the integral images is actually higher than the running time not using integral images. This is due to matlab being heavily optimized for matrix operations and the integral operations having iterate through the sets of points that comprised the positive and negative regions as demonstrated through this psuedo-code.
 
     ```matlab
-    %generate_feature and have it return the corners of positive regions, and corners of negative regions
-    %score of face = (sum up positive - sum of negative regions)
-    [POSITIVE NEGATIVE] = gen_interval_feature;
 
-    scores = zeros(1, 1, numFaces + numNonFaces);
-    for px = 1 : size(POSITIVE,1)
-        points = POSITIVE(px, 1:4);
-        row1 = points(1);
-        row2 = points(3);
-        col1 = points(2);
-        col2 = points(4);
-        scores = scores + (allFaces(row1, col1 ,:) + allFaces(row2, col2 ,:) - allFaces(row1, col2, :) - allFaces(row2, col1, :) );
+    ```
+
+
+    ```matlab
+    %faces & nonfaces are already available
+    FINALFEAT = [];
+    FINALTHRESH = [];
+    for numFeats = 1:100
+        for jx = 1:20
+            FEAT = generate_feature;                  % make a random feature.
+            scores = allFaces' * FEAT(:);             % compute its score for all faces.
+            thresholdList = linspace(min(scores),max(scores),1000);  % make 1000 thresholds.
+            for ix = 1:1000
+                % compute classification result with this threshold
+                classifierResult = sign(scores-thresholdList(ix));
+                % compute "weighted" score for each face (classifier score is the sum of these weighted scores)
+                tempScorce = sum(classifierResult .* desiredClassification .* weights);
+                if (better than pervious score)
+                    cThresh = thresholdList(ix);
+                end
+            end
+            % go back and get classification for the best threshold you found.
+            weakClassifier = sign(scores-cThresh);
+            % recompute how good that actually was.
+            weakClassifierScore = sum(weakClassifier .* desiredOut .*weights);
+            % if better than we've seen so far, then save it.
+            if weakClassifierScore > bestWeakClassifierScore
+                bestWeakClassifierScore = weakClassifierScore;
+                FINALFEAT(:,:,numFeats) = FEAT;
+                FINALTHRESH(numFeats) = cThresh;
+            end
+        end
+        % now, let's update the weights of the samples.
+        weights = weights .* exp(-desiredClassification .* weakClassifier);
+        % normalize the weights or they'll go crazy.
+        weights = weights./sum(weights(:));
     end
-    for px = 1 : size(NEGATIVE,1)
-        points = NEGATIVE(px, 1:4);
-        row1 = points(1);
-        row2 = points(3);
-        col1 = points(2);
-        col2 = points(4);
-        scores = scores - (allFaces(row1, col1 ,:) + allFaces(row2, col2 ,:) - allFaces(row1, col2, :) - allFaces(row2, col1, :)) ;
-    end
-    scores = reshape(scores,numFaces+numNonFaces,1);
     ```
 
 ##Classification

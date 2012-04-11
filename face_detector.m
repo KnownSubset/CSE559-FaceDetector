@@ -1,4 +1,4 @@
-function [] = face_dectector(faces, nonfaces, image)
+function [] = face_detector(faces, nonfaces, image)
 
 Fvec = reshape(faces,24*24,[]);
 NFvec = reshape(nonfaces,24*24,[]);

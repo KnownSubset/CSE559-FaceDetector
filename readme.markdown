@@ -13,6 +13,45 @@ In the training phase, using the generated rectangle, I determined its response 
 
 There are more novel approaches to learning classifier than the approach I took to learning the classifier.  If I had more time I would go back and correctly implement the Ada-Boost that was mentioned in the paper, as I would expect to generated better classifiers from these learning functions.
 
+* Training Pseudo-code
+
+    ```matlab
+    %faces & nonfaces are already available
+    FINALFEAT = [];
+    FINALTHRESH = [];
+    for numFeats = 1:100
+        for jx = 1:20
+            FEAT = generate_feature;                  % make a random feature.
+            scores = allFaces' * FEAT(:);             % compute its score for all faces.
+            thresholdList = linspace(min(scores),max(scores),1000);  % make 1000 thresholds.
+            for ix = 1:1000
+                % compute classification result with this threshold
+                classifierResult = sign(scores-thresholdList(ix));
+                % compute "weighted" score for each face (classifier score is the sum of these weighted scores)
+                tempScorce = sum(classifierResult .* desiredClassification .* weights);
+                if (better than pervious score)
+                    cThresh = thresholdList(ix);
+                end
+            end
+            % go back and get classification for the best threshold you found.
+            weakClassifier = sign(scores-cThresh);
+            % recompute how good that actually was.
+            weakClassifierScore = sum(weakClassifier .* desiredOut .*weights);
+            % if better than we've seen so far, then save it.
+            if weakClassifierScore > bestWeakClassifierScore
+                bestWeakClassifierScore = weakClassifierScore;
+                FINALFEAT(:,:,numFeats) = FEAT;
+                FINALTHRESH(numFeats) = cThresh;
+            end
+        end
+        % now, let's update the weights of the samples.
+        weights = weights .* exp(-desiredClassification .* weakClassifier);
+        % normalize the weights or they'll go crazy.
+        weights = weights./sum(weights(:));
+    end
+    ```
+
+
 Here are some examples of the best classifiers:
 
      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
@@ -118,43 +157,7 @@ Here are some examples of the worst classifiers:
      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 
-* Training Pseudo-code
-
-    ```matlab
-    %faces & nonfaces are already available
-    FINALFEAT = [];
-    FINALTHRESH = [];
-    for numFeats = 1:100
-        for jx = 1:20
-            FEAT = generate_feature;                  % make a random feature.
-            scores = allFaces' * FEAT(:);             % compute its score for all faces.
-            thresholdList = linspace(min(scores),max(scores),1000);  % make 1000 thresholds.
-            for ix = 1:1000
-                % compute classification result with this threshold
-                classifierResult = sign(scores-thresholdList(ix));
-                % compute "weighted" score for each face (classifier score is the sum of these weighted scores)
-                tempScorce = sum(classifierResult .* desiredClassification .* weights);
-                if (better than pervious score)
-                    cThresh = thresholdList(ix);
-                end
-            end
-            % go back and get classification for the best threshold you found.
-            weakClassifier = sign(scores-cThresh);
-            % recompute how good that actually was.
-            weakClassifierScore = sum(weakClassifier .* desiredOut .*weights);
-            % if better than we've seen so far, then save it.
-            if weakClassifierScore > bestWeakClassifierScore
-                bestWeakClassifierScore = weakClassifierScore;
-                FINALFEAT(:,:,numFeats) = FEAT;
-                FINALTHRESH(numFeats) = cThresh;
-            end
-        end
-        % now, let's update the weights of the samples.
-        weights = weights .* exp(-desiredClassification .* weakClassifier);
-        % normalize the weights or they'll go crazy.
-        weights = weights./sum(weights(:));
-    end
-    ```
+    If I had more time I would have like to explore the classification of images, using the features solely mentioned in
 
 ### Results from a sample training run
 
@@ -246,6 +249,37 @@ The idea of using cascade filters is to help quickly reduce the search space by 
 To determine which filters to apply first, I sorted the filters based upon its bestClassifierScore that was generated during the training phase.  I tried various schemes of how to apply the filters, such as run blocks by increasing the # of filters by 10 each pass, or by increasing by 2 with each pass.  The running in blocks of ten provided a reasonable face detection and smaller processing time.  If I could have implemented the cascade in the manner to actually not requiring reprocessing the filters already processed, then I speculate I would see faster processing time by using cascades.
 
 The processed images at the bottom of the report demonstrate the higher success rate of face detection.
+
+* Cascade pseudo-cod
+
+    ```matlab
+        %% Select the cascade of features to classify possible faces
+       [~, i] = sort(featureRanking,2,'descend');
+
+       squaresIndexes = [1:size(squares,3)];
+       startClock = clock;
+       for ij = 1:25
+           %% classify
+           [CLASSIFICATION VOTES] = classify_squares(squares, FF(:,1:(4*ij)), FINALTHRESH(1:(4*ij)));
+
+           %% build squares out of 'positive' faces for next cascade
+           newSquares = zeros(24,24, sum(CLASSIFICATION == 1));
+           face_ndx = 1;
+           temp = zeros(1, sum(CLASSIFICATION == 1));
+
+           for ix = 1:size(squares,3)
+               if (CLASSIFICATION(ix) == 1)
+                temp(face_ndx) = squaresIndexes(ix);
+                newSquares(:, :, face_ndx) = squares(:,:,ix);
+                face_ndx = face_ndx + 1;
+               end
+           end
+           %disp(fprintf('cascade # %d found %d faces out of %d possible faces', ij, size(newSquares,3), size(squares,3)));
+           %clock - startClock
+           squares = newSquares;
+           squaresIndexes = temp;
+       end
+    ```
 
 ### Results from a sample classification run
 

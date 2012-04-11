@@ -11,9 +11,49 @@ Viola-Jones face detection is a machine learning technique that generates a set 
 
 In the training phase, using the generated rectangle, I determined its response against all of the faces and nonfaces.  The more images that it correctly identified will give it a higher score.  After the training phase determines the features that have the best scores, I combined them into a single feature.
 
+There are more noval approaches to learning classifier than the approach I took to learning the classifier.  If I had more time I would go back and correctly implement the Ada-Boost that was metioned in the paper, as I would expect to generated better classifiers from these learning functions.
+
 Here are some examples of the best classifiers:
 
 Here are some examples of the worst classifiers:
+
+* Training Pseudo-code
+
+    ```matlab
+    %faces & nonfaces are already available
+    FINALFEAT = [];
+    FINALTHRESH = [];
+    for numFeats = 1:100
+        for jx = 1:20
+            FEAT = generate_feature;                  % make a random feature.
+            scores = allFaces' * FEAT(:);             % compute its score for all faces.
+            thresholdList = linspace(min(scores),max(scores),1000);  % make 1000 thresholds.
+            for ix = 1:1000
+                % compute classification result with this threshold
+                classifierResult = sign(scores-thresholdList(ix));
+                % compute "weighted" score for each face (classifier score is the sum of these weighted scores)
+                tempScorce = sum(classifierResult .* desiredClassification .* weights);
+                if (better than pervious score)
+                    cThresh = thresholdList(ix);
+                end
+            end
+            % go back and get classification for the best threshold you found.
+            weakClassifier = sign(scores-cThresh);
+            % recompute how good that actually was.
+            weakClassifierScore = sum(weakClassifier .* desiredOut .*weights);
+            % if better than we've seen so far, then save it.
+            if weakClassifierScore > bestWeakClassifierScore
+                bestWeakClassifierScore = weakClassifierScore;
+                FINALFEAT(:,:,numFeats) = FEAT;
+                FINALTHRESH(numFeats) = cThresh;
+            end
+        end
+        % now, let's update the weights of the samples.
+        weights = weights .* exp(-desiredClassification .* weakClassifier);
+        % normalize the weights or they'll go crazy.
+        weights = weights./sum(weights(:));
+    end
+    ```
 
 ###Classification
 Once all the features have been generated from the training phase, these features can be ran against any image to detect the faces.  Each 24x24 square of the image is ran against the set of features, just as all the faces were during the training phase.  A problem occurs when the same face appears in multiple rectangle as demonstrated with these images:
@@ -21,19 +61,26 @@ Once all the features have been generated from the training phase, these feature
   ![face1](https://github.com/KnownSubset/CSE559-facedetector/raw/master/face1.jpg "bad face") ![face2](https://github.com/KnownSubset/CSE559-facedetector/raw/master/face2.jpg "good face") ![face3](https://github.com/KnownSubset/CSE559-facedetector/raw/master/face3.jpg "bad face")
 
 To mitigate this factor, the maximum response from within a local area is usually determined to be the face.  It also helps to have really good features that will not pick up half a face as being a face.
-
+Then these steps are repeated for the image pyramid, until the next image cannot contain a 24x24 pixel feature.
 
     Re-train the classifier without the last 100 example faces and without the last 100 example non-faces, then use those 200 examples as "test-cases", and report classification accuracy (False Positive, True Positive, False Negative, and True Negative percentages).
     Report on total running time of both the training phase and the per-image testing phase.
     Report on running time when using the integral images, versus not using the integral images. 
 
-* Pseudo-code description of the algorithm, highlighting things like specifics of your image pyramid (how much smaller is each layer than the next).
-    
+* Classification pseudo-code
 
     ```matlab
-    %faces & nonfaces are already available
-
-
-    %Declare Success
-    %Map images onto a surface
+    %% display training results
+    FF = reshape(FINALFEAT,24*24,[]);                   % Reshape all the good features into one matrix
+    scores = FF'*allFaces;                              % Compute the score of every face with every feature.
+    thresholds = repmat(FINALTHRESH',1,size(AS,2));     % create matrix of all thresholds, replicating it so its same size as AS
+    VOTES = sign( scores - thresholds);                 % compute weak classification  of all faces for all features
+    CLASSIFICATION = sign(sum(VOTES));                  % sum the classifications.
     ```
+
+###Integral Images
+Integral areas (or summed area tables) are really useful for in the calculation because you can calculate the response of image to feature using four calculations for every subsquare, instead of 24x24 operations for every subsquare.  However I did experience a set back with this as I during the responses for every subsquare within a image.  I was doing each subsquares calculation seperatly and was befuddled as to why I was not seeing similar or better performance than the original method.  Then I finally realized that I could perform the calculation for all subsquares at the same time.  This was a lesson well learned from using matlab, that operations are faster on array then on each individual element of the array.
+
+Another nice part of the integral image is that it is not neccessary to calculate the image pyramid to find "larger faces" than at 24x24 pixels.  Due to the fact that integral image is already calculated it is just as effecient to upsize the features, since it will still only require four operations to calculate the response of subsquare to a feature.  As an aside, I did not upsize the features, and I am sure if I had more time to implement the functionality it would lead to a performance boost the integral images of the image pyramid would not have to be calculated.
+## Results
+There are two functions that will

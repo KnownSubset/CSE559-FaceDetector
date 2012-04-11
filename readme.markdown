@@ -281,6 +281,8 @@ There are two functions that will run to train the classifiers, report on the ac
 
 Both of matlab functions use a mix of other functions contained within the same repository, some of which I am surprised work all together.
 
+### Processed images
+
  ![lotr 441x500](https://github.com/KnownSubset/CSE559-facedetector/raw/master/data/lotr_cast1.jpg "lotr 441x500")
 
  ![lotr 441x500](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/lotr_cast1_cascade_441_500.jpg "lotr 441x500")
@@ -342,7 +344,7 @@ Both of matlab functions use a mix of other functions contained within the same 
 
  = = =
 
-  ![golf ](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/JJsts.jpg "golf")
+  ![golf ](https://github.com/KnownSubset/CSE559-FaceDetector/raw/master/data/JJsts.jpg "golf")
 
   ![golf 477_240](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_noncascade_477_240.jpg "golf 477_240")
   ![golf 477_240](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_cascade_477_240.jpg "golf 477_240")

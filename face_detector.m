@@ -24,10 +24,10 @@ CLASSIFICATION = sign(sum(VOTES)-eps);  % sum the classifications.  if something
                                         % yes and no votes, then it is 0
                                         % instead of -1 of +1, so -eps
                                         % makes sure that doesn't happen.
-fprintf('true positive: %d %% \n',sum(CLASSIFICATION' == 1 &  desiredOut == 1)/numFaces);
-fprintf('true negative: %d %%  \n', sum(CLASSIFICATION' == -1 &  desiredOut == -1)/numNonFaces);
-fprintf('false negatives: %d %% \n',sum(CLASSIFICATION' == -1 &  desiredOut == 1)/numFaces);
-fprintf('false positives: %d %% \n', sum(CLASSIFICATION' == 1 &  desiredOut == -1)/numNonFaces);
+fprintf('true positive: %d %%  or %d out of %d faces \n',sum(CLASSIFICATION' == 1 &  desiredOut == 1)/numFaces,sum(CLASSIFICATION' == 1 &  desiredOut == 1),numFaces);
+fprintf('true negative: %d %%  or %d out of %d faces \n', sum(CLASSIFICATION' == -1 &  desiredOut == -1)/numNonFaces, sum(CLASSIFICATION' == -1 &  desiredOut == -1),numNonFaces);
+fprintf('false negatives: %d %%  or %d out of %d faces \n',sum(CLASSIFICATION' == -1 &  desiredOut == 1)/numFaces,sum(CLASSIFICATION' == -1 &  desiredOut == 1),numFaces);
+fprintf('false positives: %d %%  or %d out of %d faces \n', sum(CLASSIFICATION' == 1 &  desiredOut == -1)/numNonFaces, sum(CLASSIFICATION' == 1 &  desiredOut == -1),numNonFaces);
 
 %% now let's do it for a subset of the faces...
 testCases = [Fvec(:,size(Fvec,2)-99:size(Fvec,2)) NFvec(:,size(NFvec,2)-99:size(NFvec,2))];
@@ -56,10 +56,11 @@ CLASSIFICATION = sign(sum(VOTES)-eps);  % sum the classifications.  if something
                                         % instead of -1 of +1, so -eps
                                         % makes sure that doesn't happen.
                 
-fprintf('true positive: %d %% \n',sum(CLASSIFICATION' == 1 &  desiredOut == 1)/100);
-fprintf('true negative: %d %% \n', sum(CLASSIFICATION' == -1 &  desiredOut == -1)/100);
-fprintf('false negatives: %d %% \n',sum(CLASSIFICATION' == -1 &  desiredOut == 1)/100);
-fprintf('false positives: %d %% \n', sum(CLASSIFICATION' == 1 &  desiredOut == -1)/100);
+fprintf('true positive: %d %%  or %d out of %d faces \n',sum(CLASSIFICATION' == 1 &  desiredOut == 1)/numFaces,sum(CLASSIFICATION' == 1 &  desiredOut == 1),numFaces-100);
+fprintf('true negative: %d %%  or %d out of %d faces \n', sum(CLASSIFICATION' == -1 &  desiredOut == -1)/numNonFaces, sum(CLASSIFICATION' == -1 &  desiredOut == -1),numNonFaces-100);
+fprintf('false negatives: %d %%  or %d out of %d faces \n',sum(CLASSIFICATION' == -1 &  desiredOut == 1)/numFaces,sum(CLASSIFICATION' == -1 &  desiredOut == 1),numFaces-100);
+fprintf('false positives: %d %%  or %d out of %d faces \n', sum(CLASSIFICATION' == 1 &  desiredOut == -1)/numNonFaces, sum(CLASSIFICATION' == 1 &  desiredOut == -1),numNonFaces-100);
+
 
 
 %% classify an image

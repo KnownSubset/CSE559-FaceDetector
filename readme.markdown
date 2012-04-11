@@ -3,11 +3,11 @@
 _______
 
 ## Overview
-
-###Training
-Viola-Jones face detection is a machine learning technique that generates a set of features that are useful in identify faces.  These "useful" features are found by measuring of the response a set of postive and negative rectangles within a 24x24 pixel square.  A simplistic approach was taken in determining which rectangles should comprise the feature, rather than try out all 180,000+ possible features.  A rectangle type was chosen from five types of rectangles generating the rectangle, as shown below.
+ Viola-Jones face detection is a machine learning technique that generates a set of features that are useful in identify faces.  These "useful" features are found by measuring of the response a set of postive and negative rectangles within a 24x24 pixel square.  A simplistic approach was taken in determining which rectangles should comprise the feature, rather than try out all 180,000+ possible features.  A rectangle type was chosen from five types of rectangles generating the rectangle, as shown below.
 
  ![Rectangles](https://github.com/KnownSubset/CSE559-facedetector/raw/master/rectangles_types.jpg "Rectangles") There also is a rotated version of the three part feature calculated and not all parts of the features will have the same dimensions as the othe parts.
+
+##Training
 
 In the training phase, using the generated rectangle, I determined its response against all of the faces and nonfaces.  The more images that it correctly identified will give it a higher score.  After the training phase determines the features that have the best scores, I combined them into a single feature.
 
@@ -55,12 +55,22 @@ Here are some examples of the worst classifiers:
     end
     ```
 
-###Classification
+### Results from a sample training run
+
+All faces
+Regular       :
+Integral Image:
+
+Without last 100 faces & 100 nonfaces
+Regular       :
+Integral Image:
+
+##Classification
 Once all the features have been generated from the training phase, these features can be ran against any image to detect the faces.  Each 24x24 square of the image is ran against the set of features, just as all the faces were during the training phase.  A problem occurs when the same face appears in multiple rectangle as demonstrated with these images:
 
   ![face1](https://github.com/KnownSubset/CSE559-facedetector/raw/master/face1.jpg "bad face") ![face2](https://github.com/KnownSubset/CSE559-facedetector/raw/master/face2.jpg "good face") ![face3](https://github.com/KnownSubset/CSE559-facedetector/raw/master/face3.jpg "bad face")
 
-To mitigate this factor, the maximum response from within a local area is usually determined to be the face.  It also helps to have really good features that will not pick up half a face as being a face.
+To mitigate this factor, the maximum response from within a local area is usually determined to be the face.  It also helps to have really good features that will not pick up half a face as being a face.   To calculate the local maximum I used this [code](http://stackoverflow.com/questions/1856197/how-can-i-find-local-maxima-in-an-image-in-matlab), it works reasonably well as you see from the results below.  It would generate better results if it would work within a threshold as it is still easy to recognize that multiple subsquares that overlap should be merged as a possible face.
 Then these steps are repeated for the image pyramid, until the next image cannot contain a 24x24 pixel feature.
 
     Re-train the classifier without the last 100 example faces and without the last 100 example non-faces, then use those 200 examples as "test-cases", and report classification accuracy (False Positive, True Positive, False Negative, and True Negative percentages).
@@ -78,6 +88,35 @@ Then these steps are repeated for the image pyramid, until the next image cannot
     CLASSIFICATION = sign(sum(VOTES));                  % sum the classifications.
     ```
 
+### Results from a sample classification run
+
+finished training 0 mins 7.679925 secs for #12876 faces
+true positive: 74.73556 %  or 3674 out of 4916 faces
+true negative: 85.35176 %  or 6794 out of 7960 nonfaces
+false negatives: 25.26444 %  or 1242 out of 4916 faces
+false positives: 14.64824 %  or 1166 out of 7960 nonfaces
+
+finished training 0 mins 7.585394 secs for #12676 faces
+true positive: 84 %  or 84 out of 100 faces
+true negative: 78 %  or 78 out of 100 nonfaces
+false negatives: 16 %  or 16 out of 100 faces
+false positives: 22 %  or 22 out of 100 nonfaces
+
+image size  |   time    | time using cascade
+221 250     |   1.1370  |   1.7805
+177 200     |   0.7513  |   1.3505
+142 160     |   0.4657  |   0.8743
+114 128     |   0.2546  |   0.5496
+92 103      |   0.1624  |   0.3339
+74 83       |   0.0878  |   0.2210
+60 67       |   0.0511  |   0.1128
+48 54       |   0.0247  |   0.0465
+39 44       |   0.0112  |   0.0185
+32 36       |   0.0034  |   0.0075
+26 29       |   0.000941|   0.0052
+
+total time to classify image pyramids squares: 9.2413
+
 ###Integral Images
  ![Integral Image](https://github.com/KnownSubset/CSE559-facedetector/raw/master/integral_image_example.jpg "Integral Image")
 Integral areas (or summed area tables) are really useful for in the calculation because you can calculate the response of image to feature using four calculations for every subsquare, instead of 24x24 operations for every subsquare.  However I did experience a set back with this as I during the responses for every subsquare within a image.  I was doing each subsquares calculation seperatly and was befuddled as to why I was not seeing similar or better performance than the original method.  Then I finally realized that I could perform the calculation for all subsquares at the same time.  This was a lesson well learned from using matlab, that operations are faster on array then on each individual element of the array.
@@ -85,7 +124,12 @@ Integral areas (or summed area tables) are really useful for in the calculation 
 Another nice part of the integral image is that it is not neccessary to calculate the image pyramid to find "larger faces" than at 24x24 pixels.  Due to the fact that integral image is already calculated it is just as effecient to upsize the features, since it will still only require four operations to calculate the response of subsquare to a feature.  As an aside, I did not upsize the features, and I am sure if I had more time to implement the functionality it would lead to a performance boost the integral images of the image pyramid would not have to be calculated.
 
 ## Results
-There are two functions that will
+There are two functions that will run to train the classifiers, report on the accuracy of the classifiers, and run the classifiers against an image.
+
+[face_detector.m](https://github.com/KnownSubset/CSE559-FaceDetector/blob/master/face_detector.m) will run without using integral images.
+[face_detector_II.m](https://github.com/KnownSubset/CSE559-FaceDetector/blob/master/face_detector_II.m) will run using integral images.
+
+Both of matlab functions use a mix of other functions contained within the same repository, some of which I am surprised work all together.
 
  ![lotr 441x500](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/lotr_cast1_cascade_441_500.jpg "lotr 441x500")
  ![lotr 441x500](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/lotr_cast1_noncascade_441_500.jpg "lotr 441x500")

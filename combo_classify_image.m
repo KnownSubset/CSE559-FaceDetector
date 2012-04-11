@@ -2,7 +2,10 @@ function [] = combo_classify_image(image, FF, FINALTHRESH, featureRanking, prefi
     rowRange = size(image,1) - 23;
     colRange = size(image,2) - 23;
     %% using regular way
-    VOTES = classify_image(image, FF, FINALTHRESH);    
+    startClock = clock;
+    VOTES = classify_image(image, FF, FINALTHRESH);     
+    fprintf('time to classify image of size %d %d \n', size(image,1),size(image,2));
+    clock-startClock
     %figure, colormap gray;
     %subplot(1,3,1);
     %imagesc(image);

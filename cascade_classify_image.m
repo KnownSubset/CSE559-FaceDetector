@@ -18,9 +18,8 @@ function [VOTES] = cascade_classify_image(image, FF, FINALTHRESH, featureRanking
    [~, i] = sort(featureRanking,2,'descend');
    
    squaresIndexes = [1:size(squares,3)];
+   startClock = clock;
    for ij = 1:25
-       startClock = clock;
-
        %% classify 
        [CLASSIFICATION VOTES] = classify_squares(squares, FF(:,1:(4*ij)), FINALTHRESH(1:(4*ij)));
 
@@ -41,9 +40,13 @@ function [VOTES] = cascade_classify_image(image, FF, FINALTHRESH, featureRanking
        squares = newSquares;
        squaresIndexes = temp;
    end
+   disp('time to classify using cascade');
+   clock-startClock
    ALL_VOTES = zeros(100, (size(image2,1)-23)*(size(image2,2)-23));
    for ix = 1:size(squaresIndexes,2)
        ALL_VOTES(:,squaresIndexes(ix)) = VOTES(ix);
    end
    VOTES = ALL_VOTES;
+   
+
    

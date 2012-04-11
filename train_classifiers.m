@@ -11,7 +11,7 @@ for numFeats = 1:100
     bestWeakClassifierScore = 0;
     
     
-    for jx = 1:20  % boring for loops to always count up!
+    for jx = 1:1  % boring for loops to always count up!
       
         FEAT = generate_feature;                  % make a random feature.
         scores = allFaces' * FEAT(:);       % compute its score for all faces.

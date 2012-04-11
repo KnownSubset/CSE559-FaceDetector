@@ -9,7 +9,7 @@ function [] = combo_classify_image(image, FF, FINALTHRESH, featureRanking, prefi
     %figure, colormap gray;
     %subplot(1,3,1);
     %imagesc(image);
-    %image2 = image;
+    image2 = image;
     locs =  localmax(reshape(sum(VOTES),rowRange,colRange));
     for ix = 1:size(locs,2)
         row = floor(locs(ix) / colRange) + 1;

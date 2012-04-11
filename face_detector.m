@@ -71,7 +71,7 @@ image2 = image;
 %%LOTR cast
 startClock = clock;
 while (size(image2,1) > 24 && size(image2,2) > 24)
-    combo_classify_image(image2, FF, FINALTHRESH,featureRanking, 'lotr_cast2');
+    combo_classify_image(image2, FF, FINALTHRESH,featureRanking, 'golf');
     image2 = imresize(image, size(image2)*.8);
 end
 disp('time to classify image pyramids squares ');

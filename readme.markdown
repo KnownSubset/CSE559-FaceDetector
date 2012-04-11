@@ -157,7 +157,7 @@ Here are some examples of the worst classifiers:
      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 
-    If I had more time I would have like to explore the classification of images, using the features solely mentioned in
+ If I had more time I would have like to explore the classification of images, using the features solely mentioned in the slides from class.
 
 ### Results from a sample training run
 
@@ -250,35 +250,35 @@ To determine which filters to apply first, I sorted the filters based upon its b
 
 The processed images at the bottom of the report demonstrate the higher success rate of face detection.
 
-* Cascade pseudo-cod
+* Cascade pseudo-code
 
     ```matlab
-        %% Select the cascade of features to classify possible faces
-       [~, i] = sort(featureRanking,2,'descend');
+    %% Select the cascade of features to classify possible faces
+    [~, i] = sort(featureRanking,2,'descend');
 
-       squaresIndexes = [1:size(squares,3)];
-       startClock = clock;
-       for ij = 1:25
-           %% classify
-           [CLASSIFICATION VOTES] = classify_squares(squares, FF(:,1:(4*ij)), FINALTHRESH(1:(4*ij)));
+    squaresIndexes = [1:size(squares,3)];
+    startClock = clock;
+    for ij = 1:25
+       %% classify
+       [CLASSIFICATION VOTES] = classify_squares(squares, FF(:,1:(4*ij)), FINALTHRESH(1:(4*ij)));
 
-           %% build squares out of 'positive' faces for next cascade
-           newSquares = zeros(24,24, sum(CLASSIFICATION == 1));
-           face_ndx = 1;
-           temp = zeros(1, sum(CLASSIFICATION == 1));
+       %% build squares out of 'positive' faces for next cascade
+       newSquares = zeros(24,24, sum(CLASSIFICATION == 1));
+       face_ndx = 1;
+       temp = zeros(1, sum(CLASSIFICATION == 1));
 
-           for ix = 1:size(squares,3)
-               if (CLASSIFICATION(ix) == 1)
-                temp(face_ndx) = squaresIndexes(ix);
-                newSquares(:, :, face_ndx) = squares(:,:,ix);
-                face_ndx = face_ndx + 1;
-               end
+       for ix = 1:size(squares,3)
+           if (CLASSIFICATION(ix) == 1)
+            temp(face_ndx) = squaresIndexes(ix);
+            newSquares(:, :, face_ndx) = squares(:,:,ix);
+            face_ndx = face_ndx + 1;
            end
-           %disp(fprintf('cascade # %d found %d faces out of %d possible faces', ij, size(newSquares,3), size(squares,3)));
-           %clock - startClock
-           squares = newSquares;
-           squaresIndexes = temp;
        end
+       %disp(fprintf('cascade # %d found %d faces out of %d possible faces', ij, size(newSquares,3), size(squares,3)));
+       %clock - startClock
+       squares = newSquares;
+       squaresIndexes = temp;
+    end
     ```
 
 ### Results from a sample classification run

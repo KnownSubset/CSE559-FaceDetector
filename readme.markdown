@@ -5,7 +5,7 @@ _______
 ## Overview
  Viola-Jones face detection is a machine learning technique that generates a set of features that are useful in identify faces.  These "useful" features are found by measuring of the response a set of postive and negative rectangles within a 24x24 pixel square.  A simplistic approach was taken in determining which rectangles should comprise the feature, rather than try out all 180,000+ possible features.  A rectangle type was chosen from five types of rectangles generating the rectangle, as shown below.
 
- ![Rectangles](https://github.com/KnownSubset/CSE559-facedetector/raw/master/rectangles_types.jpg "Rectangles") There also is a rotated version of the three part feature calculated and not all parts of the features will have the same dimensions as the othe parts.
+ ![Rectangles](https://github.com/KnownSubset/CSE559-FaceDetector/raw/master/rectangle_types.jpg "Rectangles") There also is a rotated version of the three part feature calculated and not all parts of the features will have the same dimensions as the othe parts.
 
 ##Training
 

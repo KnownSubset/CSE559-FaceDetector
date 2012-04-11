@@ -50,6 +50,7 @@ allFaces(:,:,101:200) = nonfacesII(:,:,numNonFaces+1:numNonFaces+100);
 calc_score_II(allFaces,[ones(1,100) -ones(1,100)]', FINALFEAT_II, FINALTHRESH, featureRanking, 100, 100);
 
 %% classify an image
+startClock = clock;
 image2 = im2double(image);
 while (size(image2,1) > 24 && size(image2,2) > 24)
     totalSquares = (size(image2,1)-23)*(size(image2,2)-23);
@@ -107,3 +108,6 @@ while (size(image2,1) > 24 && size(image2,2) > 24)
 
     image2 = im2double(imresize(image, size(image2)*.8));
 end
+
+disp('time to classify image pyramids squares ');
+clock-startClock

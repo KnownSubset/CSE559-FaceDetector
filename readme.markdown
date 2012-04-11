@@ -281,6 +281,8 @@ There are two functions that will run to train the classifiers, report on the ac
 
 Both of matlab functions use a mix of other functions contained within the same repository, some of which I am surprised work all together.
 
+ ![lotr 441x500](https://github.com/KnownSubset/CSE559-facedetector/raw/master/data/lotr_cast1.jpg "lotr 441x500")
+
  ![lotr 441x500](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/lotr_cast1_cascade_441_500.jpg "lotr 441x500")
  ![lotr 441x500](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/lotr_cast1_noncascade_441_500.jpg "lotr 441x500")
  - - -
@@ -340,26 +342,38 @@ Both of matlab functions use a mix of other functions contained within the same 
 
  = = =
 
+  ![golf ](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/JJsts.jpg "golf")
+
   ![golf 477_240](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_noncascade_477_240.jpg "golf 477_240")
   ![golf 477_240](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_cascade_477_240.jpg "golf 477_240")
+ - - -
   ![golf 382_192](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_noncascade_382_192.jpg "golf 382_192")
   ![golf 382_192](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_cascade_382_192.jpg "golf 382_192")
+ - - -
   ![golf 306_154](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_noncascade_306_154.jpg "golf 306_154")
   ![golf 306_154](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_cascade_306_154.jpg "golf 306_154")
+ - - -
   ![golf 245_124](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_noncascade_245_124.jpg "golf 245_124")
   ![golf 245_124](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_cascade_245_124.jpg "golf 245_124")
+ - - -
   ![golf 196_100](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_noncascade_196_100.jpg "golf 196_100")
   ![golf 196_100](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_cascade_196_100.jpg "golf 196_100")
+ - - -
   ![golf 157_80](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_noncascade_157_80.jpg "golf 157_80")
   ![golf 157_80](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_cascade_157_80.jpg "golf 157_80")
+ - - -
   ![golf 126_64](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_noncascade_126_64.jpg "golf 126_64")
   ![golf 126_64](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_cascade_126_64.jpg "golf 126_64")
+ - - -
   ![golf 101_52](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_noncascade_101_52.jpg "golf 101_52")
   ![golf 101_52](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_cascade_101_52.jpg "golf 101_52")
+ - - -
   ![golf 81_42](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_noncascade_81_42.jpg "golf 81_42")
   ![golf 81_42](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_cascade_81_42.jpg "golf 81_42")
+ - - -
   ![golf 65_34](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_noncascade_65_34.jpg "golf 65_34")
   ![golf 65_34](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_cascade_65_34.jpg "golf 65_34")
+ - - -
   ![golf 52_28](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_noncascade_52_28.jpg "golf 52_28")
   ![golf 52_28](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_cascade_52_28.jpg "golf 52_28")
 

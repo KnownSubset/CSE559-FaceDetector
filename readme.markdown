@@ -323,11 +323,11 @@ There are two functions that will run to train the classifiers, report on the ac
 Both of matlab functions use a mix of other functions contained within the same repository, some of which I am surprised work all together.
 
 ### Processed images
-
- It can be seen that the cascade filters did a better job at identifying faces than the non cascade that look more like white washed images.
- Also using local maximum suppression on images helped here, but it would have better if I would have combined the overlapping detected faces into a single detected face.
  
  ![lotr 441x500](https://github.com/KnownSubset/CSE559-facedetector/raw/master/data/lotr_cast1.jpg "lotr 441x500")
+
+ It can be seen that the cascade filters did a better job at identifying faces than the non cascade images.  The images that look more like white washed images were classified using noncascaded filters.
+ Also using local maximum suppression on images helped here, but it would have better if I would have combined the overlapping detected faces into a single detected face.
 
  ![lotr 441x500](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/lotr_cast1_cascade_441_500.jpg "lotr 441x500")
  ![lotr 441x500](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/lotr_cast1_noncascade_441_500.jpg "lotr 441x500")

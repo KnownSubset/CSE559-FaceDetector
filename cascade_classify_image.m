@@ -19,23 +19,29 @@ function [VOTES] = cascade_classify_image(image, FF, FINALTHRESH, featureRanking
    
    squaresIndexes = [1:size(squares,3)];
    startClock = clock;
-   for ij = 1:25
+   cascadeSize = 10;
+   PreviousVotes = zeros(cascadeSize,size(squares,3));
+   for ij = 1:100/cascadeSize
        %% classify 
-       [CLASSIFICATION VOTES] = classify_squares(squares, FF(:,1:(4*ij)), FINALTHRESH(1:(4*ij)));
-
-       %% build squares out of 'positive' faces for next cascade 
+       [~, VOTES] = classify_squares(squares, FF(:,cascadeSize*(ij-1)+1:(cascadeSize*ij)), FINALTHRESH(cascadeSize*(ij-1)+1:cascadeSize*ij));
+       %PreviousClassification + CLASSIFICATION;
+       %% build squares out of 'positive' faces for next cascade
+       tempVotes = PreviousVotes + VOTES;
+       CLASSIFICATION = sign(sum(tempVotes)-eps);
        newSquares = zeros(24,24, sum(CLASSIFICATION == 1));
+       PreviousVotes = zeros(cascadeSize, sum(CLASSIFICATION == 1));
        face_ndx = 1;
        temp = zeros(1, sum(CLASSIFICATION == 1));
        
        for ix = 1:size(squares,3)
            if (CLASSIFICATION(ix) == 1)
+            PreviousVotes(:,face_ndx) = tempVotes(:,ix); 
             temp(face_ndx) = squaresIndexes(ix);
             newSquares(:, :, face_ndx) = squares(:,:,ix);
             face_ndx = face_ndx + 1;
            end
        end
-       %disp(fprintf('cascade # %d found %d faces out of %d possible faces', ij, size(newSquares,3), size(squares,3)));
+       disp(fprintf('cascade # %d found %d faces out of %d possible faces', ij, size(newSquares,3), size(squares,3)));
        %clock - startClock
        squares = newSquares;
        squaresIndexes = temp;

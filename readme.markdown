@@ -282,23 +282,21 @@ The processed images at the bottom of the report demonstrate the higher success 
     end
     ```
 
-### Results from a sample classification run
+### Results of classification run time (time in seconds)
 
 
     image size  |   time (secs)   |  cascade (original) |  cascade size=10 |  cascade size=2
-    221 250     |   1.1370        |   1.7805            |   0.4585         |   0.0
-    177 200     |   0.7513        |   1.3505            |   0.2844         |   0.0
-    142 160     |   0.4657        |   0.8743            |   0.2367         |   0.0
-    114 128     |   0.2546        |   0.5496            |   0.1166         |   0.0
-    92 103      |   0.1624        |   0.3339            |   0.0869         |   0.0
-    74 83       |   0.0878        |   0.2210            |   0.0497         |   0.0
-    60 67       |   0.0511        |   0.1128            |   0.0275         |   0.0
-    48 54       |   0.0247        |   0.0465            |   0.0162         |   0.0
-    39 44       |   0.0112        |   0.0185            |   0.0082         |   0.0
-    32 36       |   0.0034        |   0.0075            |   0.0027         |   0.0
-    26 29       |   0.000941      |   0.0052            |   0.0023         |   0.0
-
-total time to classify image pyramids squares: 9.2413
+    221 250     |   1.1370        |   1.7805            |   0.4585         |   0.9631
+    177 200     |   0.7513        |   1.3505            |   0.2844         |   0.5420
+    142 160     |   0.4657        |   0.8743            |   0.2367         |   0.3447
+    114 128     |   0.2546        |   0.5496            |   0.1166         |   0.1941
+    92 103      |   0.1624        |   0.3339            |   0.0869         |   0.1229
+    74 83       |   0.0878        |   0.2210            |   0.0497         |   0.0623
+    60 67       |   0.0511        |   0.1128            |   0.0275         |   0.0325
+    48 54       |   0.0247        |   0.0465            |   0.0162         |   0.0138
+    39 44       |   0.0112        |   0.0185            |   0.0082         |   0.0087
+    32 36       |   0.0034        |   0.0075            |   0.0027         |   0.0027
+    26 29       |   0.000941      |   0.0052            |   0.0023         |   0.000695
 
 I used image pyramid that 80% smaller than the next layer, I chose this value as I read from the Viola-Jones paper that they found the best success using layers that 1.25 smaller than the next.
 
@@ -392,7 +390,9 @@ Both of matlab functions use a mix of other functions contained within the same 
 
   ![golf ](https://github.com/KnownSubset/CSE559-FaceDetector/raw/master/data/JJsts.jpg "golf")
 
-  *Golf images NOT using integral images
+  * Golf images NOT using integral images
+  
+
   ![golf 477_240](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_noncascade_477_240.jpg "golf 477_240")
   ![golf 477_240](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_cascade_477_240.jpg "golf 477_240")
  - - -
@@ -426,9 +426,10 @@ Both of matlab functions use a mix of other functions contained within the same 
   ![golf 52_28](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_noncascade_52_28.jpg "golf 52_28")
   ![golf 52_28](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_cascade_52_28.jpg "golf 52_28")
  - - -
-  *Golf images using integral images
+  * Golf images using integral images
   Again for these images local maximum suppression helped here, but it would have better if I would have combined the overlapping detected faces into a single detected face.
   
+
   ![golf 24](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_24.jpg "golf 24") * feature size 24x24
   
   ![golf 30](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_30.jpg "golf 30") * feature size 30x30

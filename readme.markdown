@@ -3,9 +3,10 @@
 _______
 
 ## Overview
- Viola-Jones face detection is a machine learning technique that generates a set of features that are useful in identify faces.  These "useful" features are found by measuring of the response a set of postive and negative rectangles within a 24x24 pixel square.  A simplistic approach was taken in determining which rectangles should comprise the feature, rather than try out all 180,000+ possible features.  A rectangle type was chosen from five types of rectangles generating the rectangle, as shown below.
+ Viola-Jones face detection is a machine learning technique that generates a set of features that are useful in identify faces.  These "useful" features are found by measuring of the response a set of postive and negative rectangles within a 24x24 pixel square.  A simplistic approach was taken in determining which rectangles should comprise the feature, rather than try out all 180,000+ possible features.  A rectangle type was chosen from the choices, shown below, to be used as the style of the generated the rectangle.
 
- ![Rectangles](https://github.com/KnownSubset/CSE559-FaceDetector/raw/master/rectangle_types.jpg "Rectangles") There also is a rotated version of the three part feature calculated and not all parts of the features will have the same dimensions as the othe parts.
+ ![Rectangles](https://github.com/KnownSubset/CSE559-FaceDetector/raw/master/rectangle_types.jpg "Rectangles") 
+ *There also is a rotated version of the three part feature calculated and not all parts of the features will have the same dimensions as the othe parts.
 
 ##Training
 
@@ -258,9 +259,10 @@ The processed images at the bottom of the report demonstrate the higher success 
 
     squaresIndexes = [1:size(squares,3)];
     startClock = clock;
-    for ij = 1:25
+     
+    for ij = 1:cascadeSize
        %% classify
-       [CLASSIFICATION VOTES] = classify_squares(squares, FF(:,1:(4*ij)), FINALTHRESH(1:(4*ij)));
+       [CLASSIFICATION VOTES] = classify_squares(squares, FF(:,1:((100/cascadeSize)*ij)), FINALTHRESH(1:((100/cascadeSize)*ij)));
 
        %% build squares out of 'positive' faces for next cascade
        newSquares = zeros(24,24, sum(CLASSIFICATION == 1));
@@ -309,7 +311,9 @@ Another nice part of the integral image is that it is not necessary to calculate
 However since I was able to implement the functionality I can say whether it allows for a performance boost since the image pyramid do not have to be calculated.
 
 Time using expanded features : 8.2089 seconds
-Time using image pyramids    : 
+Time using image pyramids    : 1.9966 seconds
+
+As you can I have written some fairly inefficent matlab code to get this to occur.  Upon reviewing and not wanting to break everything, I should have calculated the integral image for the image instead of every square in that image.  This would only have to be calculated once rather than each pass through the loop as I currently have the code.
 
 
 

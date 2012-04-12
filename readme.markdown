@@ -248,7 +248,7 @@ Then these steps are repeated for the image pyramid, until the next image cannot
 
 The idea of using cascade filters is to help quickly reduce the search space by applying a subset of filters.  The sub-squares of an image that are labeled as faces are then passed on to the next set of filters.  The process repeats until all filters have been processed. ![cascade](https://github.com/KnownSubset/CSE559-facedetector/raw/master/cascade_filter.jpg "cascade")
 
-To determine which filters to apply first, I sorted the filters based upon its bestClassifierScore that was generated during the training phase.  I tried various schemes of how to apply the filters, such as run blocks by increasing the # of filters by 10 each pass, or by increasing by 2 with each pass.  The running in blocks of ten provided a reasonable face detection and smaller processing time.  If I could have implemented the cascade in the manner to actually not requiring reprocessing the filters already processed, then I speculate I would see faster processing time by using cascades.
+To determine which filters to apply first, I sorted the filters based upon its bestClassifierScore that was generated during the training phase.  I tried various schemes of how to apply the filters, such as run blocks by increasing the # of filters by 10 each pass, or by increasing by 2 with each pass.  The running in blocks of ten provided a reasonable face detection and smaller processing time.  Originally I did not correctly implement the cascade, such that it was required to reprocess filters, and I speculated I would see faster processing time by correctly implementing the cascades.  After reimplementation of another form of cascading, I still won't call it correct, it seems that for some configurations of the cascades there is a speed up.  
 
 The processed images at the bottom of the report demonstrate the higher success rate of face detection.
 
@@ -287,18 +287,18 @@ The processed images at the bottom of the report demonstrate the higher success 
 ### Results from a sample classification run
 
 
-    image size  |   time    | time using cascade
-    221 250     |   1.1370  |   1.7805
-    177 200     |   0.7513  |   1.3505
-    142 160     |   0.4657  |   0.8743
-    114 128     |   0.2546  |   0.5496
-    92 103      |   0.1624  |   0.3339
-    74 83       |   0.0878  |   0.2210
-    60 67       |   0.0511  |   0.1128
-    48 54       |   0.0247  |   0.0465
-    39 44       |   0.0112  |   0.0185
-    32 36       |   0.0034  |   0.0075
-    26 29       |   0.000941|   0.0052
+    image size  |   time (secs)   |  cascade (original) |  cascade size=10
+    221 250     |   1.1370        |   1.7805            |
+    177 200     |   0.7513        |   1.3505            |
+    142 160     |   0.4657        |   0.8743            |
+    114 128     |   0.2546        |   0.5496            |
+    92 103      |   0.1624        |   0.3339            |
+    74 83       |   0.0878        |   0.2210            |
+    60 67       |   0.0511        |   0.1128            |
+    48 54       |   0.0247        |   0.0465            |
+    39 44       |   0.0112        |   0.0185            |
+    32 36       |   0.0034        |   0.0075            |
+    26 29       |   0.000941      |   0.0052            |
 
 total time to classify image pyramids squares: 9.2413
 
@@ -329,7 +329,8 @@ Both of matlab functions use a mix of other functions contained within the same 
 ### Processed images
 
  It can be seen that the cascade filters did a better job at identifying faces than the non cascade that look more like white washed images.
-
+ Also using local maximum suppression on images helped here, but it would have better if I would have combined the overlapping detected faces into a single detected face.
+ 
  ![lotr 441x500](https://github.com/KnownSubset/CSE559-facedetector/raw/master/data/lotr_cast1.jpg "lotr 441x500")
 
  ![lotr 441x500](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/lotr_cast1_cascade_441_500.jpg "lotr 441x500")
@@ -389,7 +390,7 @@ Both of matlab functions use a mix of other functions contained within the same 
  ![lotr 441x500](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/lotr_cast1_cascade_27_29.jpg "lotr 441x500")
  ![lotr 441x500](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/lotr_cast1_noncascade_27_29.jpg "lotr 441x500")
 
- = = =
+ - - -
 
   ![golf ](https://github.com/KnownSubset/CSE559-FaceDetector/raw/master/data/JJsts.jpg "golf")
 

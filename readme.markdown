@@ -3,9 +3,10 @@
 _______
 
 ## Overview
- Viola-Jones face detection is a machine learning technique that generates a set of features that are useful in identify faces.  These "useful" features are found by measuring of the response a set of postive and negative rectangles within a 24x24 pixel square.  A simplistic approach was taken in determining which rectangles should comprise the feature, rather than try out all 180,000+ possible features.  A rectangle type was chosen from the choices, shown below, to be used as the style of the generated the rectangle.
+ Viola-Jones face detection is a machine learning technique that generates a set of features that are useful in identify faces.  These "useful" features are found by measuring of the response a set of postive and negative rectangles within a 24x24 pixel square.  A simplistic approach was taken in determining which rectangles should comprise the feature, rather than try out all 180,000+ possible features.  A rectangle type was chosen from the choices, shown immediately below, to be used as the style of the generated the rectangle.
 
  ![Rectangles](https://github.com/KnownSubset/CSE559-FaceDetector/raw/master/rectangle_types.jpg "Rectangles") 
+ 
  *There also is a rotated version of the three part feature calculated and not all parts of the features will have the same dimensions as the othe parts.
 
 ##Training
@@ -424,12 +425,12 @@ Both of matlab functions use a mix of other functions contained within the same 
  - - -
   ![golf 52_28](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_noncascade_52_28.jpg "golf 52_28")
   ![golf 52_28](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_cascade_52_28.jpg "golf 52_28")
-
-  ![golf 24](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_24.jpg "golf 24")
-  ![golf 30](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_30.jpg "golf 30")
-  ![golf 38](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_38.jpg "golf 38")
-  ![golf 48](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_48.jpg "golf 48")
-  ![golf 60](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_60.jpg "golf 60")
-  ![golf 75](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_75.jpg "golf 75")
-  ![golf 94](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_94.jpg "golf 94")
+ - - -
+  ![golf 24](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_24.jpg "golf 24") *
+  ![golf 30](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_30.jpg "golf 30") *
+  ![golf 38](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_38.jpg "golf 38") *
+  ![golf 48](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_48.jpg "golf 48") *
+  ![golf 60](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_60.jpg "golf 60") *
+  ![golf 75](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_75.jpg "golf 75") *
+  ![golf 94](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_94.jpg "golf 94") *
   ![golf 118](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_118.jpg "golf 118")

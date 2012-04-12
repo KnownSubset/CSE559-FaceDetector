@@ -298,7 +298,7 @@ The processed images at the bottom of the report demonstrate the higher success 
     32 36       |   0.0034        |   0.0075            |   0.0027         |   0.0027
     26 29       |   0.000941      |   0.0052            |   0.0023         |   0.000695
 
-I used image pyramid that 80% smaller than the next layer, I chose this value as I read from the Viola-Jones paper that they found the best success using layers that 1.25 smaller than the next.
+I used image pyramid that 80% smaller than the next layer, I chose this value as I read from the Viola-Jones paper that they found the best success using layers that 1.25 smaller than the next (Section 5. Results, Scanning the Detector, pg 7).
 
 ###Integral Images
  ![Integral Image](https://github.com/KnownSubset/CSE559-facedetector/raw/master/integral_image_example.jpg "Integral Image")

@@ -74,7 +74,7 @@ while (size(image2,1) > featureSize && size(image2,2) > featureSize)
             row2 = min(round(points(3)), featureSize);
             col1 = max(floor(points(2)),1);
             col2 = min(round(points(4)), featureSize);
-            if (row1 > 0 )
+            if (points(1) > 0 )
                 AS(fx,1,:) = AS(fx,1,:) + (squares(row1, col1 ,:) + squares(row2, col2 ,:) - squares(row1, col2, :) - squares(row2, col1, :) );
             end
         end
@@ -84,7 +84,7 @@ while (size(image2,1) > featureSize && size(image2,2) > featureSize)
             row2 = min(round(points(3)), featureSize);
             col1 = max(floor(points(2)),1);
             col2 = min(round(points(4)), featureSize);
-            if (row1 > 0)
+            if (points(1) > 0)
                 AS(fx,1,:) = AS(fx,1,:) - (squares(row1, col1 ,:) + squares(row2, col2 ,:) - squares(row1, col2, :) - squares(row2, col1, :)) ;
             end
         end
@@ -92,9 +92,9 @@ while (size(image2,1) > featureSize && size(image2,2) > featureSize)
 
     AS = reshape(AS, 100, totalSquares);
     AT = repmat(FINALTHRESH',1,size(AS,2)); % create matrix of all thresholds, replicating it so its same size as AS
-    VOTES = sign(AS - AT);                     
-    image2 = imresize(image, size(image2));
+    VOTES = sign(AS - AT);                    
     locs =  localmax(reshape(sum(VOTES),rowRange,colRange));
+    image2 = image;
     for ix = 1:size(locs,2)
         row = round(locs(ix) / colRange) + 1;
         col = round(mod(locs(ix),colRange))+1;
@@ -103,8 +103,8 @@ while (size(image2,1) > featureSize && size(image2,2) > featureSize)
         image2(row:row+featureSize - 1,col) = 255;
         image2(row:row+featureSize - 1,col+featureSize - 1) = 255;
     end
-    %figure, colormap gray;
-    %imagesc(image2);
+    figure, colormap gray;
+    imagesc(image2);
     %imwrite(image2, sprintf('/Users/nathan/Development/CSE559/Project3/images/%s_II_%d.jpg',prefix, featureSize));
     image2 = im2double(image);
     featureSize = round(featureSize * 1.25);

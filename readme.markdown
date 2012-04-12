@@ -426,11 +426,11 @@ Both of matlab functions use a mix of other functions contained within the same 
   ![golf 52_28](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_noncascade_52_28.jpg "golf 52_28")
   ![golf 52_28](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_cascade_52_28.jpg "golf 52_28")
  - - -
-  ![golf 24](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_24.jpg "golf 24") *
-  ![golf 30](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_30.jpg "golf 30") *
-  ![golf 38](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_38.jpg "golf 38") *
-  ![golf 48](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_48.jpg "golf 48") *
-  ![golf 60](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_60.jpg "golf 60") *
-  ![golf 75](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_75.jpg "golf 75") *
-  ![golf 94](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_94.jpg "golf 94") *
-  ![golf 118](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_118.jpg "golf 118")
+  ![golf 24](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_24.jpg "golf 24") * feature size 24
+  ![golf 30](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_30.jpg "golf 30") * feature size 30
+  ![golf 38](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_38.jpg "golf 38") * feature size 38
+  ![golf 48](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_48.jpg "golf 48") * feature size 48
+  ![golf 60](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_60.jpg "golf 60") * feature size 60
+  ![golf 75](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_75.jpg "golf 75") * feature size 75
+  ![golf 94](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_94.jpg "golf 94") * feature size 94
+  ![golf 118](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_118.jpg "golf 118") * feature size 118

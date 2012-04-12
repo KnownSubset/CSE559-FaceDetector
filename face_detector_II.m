@@ -52,14 +52,15 @@ calc_score_II(allFaces,[ones(1,100) -ones(1,100)]', FINALFEAT_II, FINALTHRESH, f
 %% classify an image
 startClock = clock;
 image2 = im2double(image);
-while (size(image2,1) > 24 && size(image2,2) > 24)
-    totalSquares = (size(image2,1)-23)*(size(image2,2)-23);
-    squares = zeros(24,24,totalSquares);
-    rowRange = size(image2,1) - 23;
-    colRange = size(image2,2) - 23;
+featureSize = 24;
+while (size(image2,1) > featureSize && size(image2,2) > featureSize)
+    totalSquares = (size(image2,1)- featureSize + 1)*(size(image2,2)- featureSize + 1);
+    squares = zeros(featureSize,featureSize,totalSquares);
+    rowRange = size(image2,1) - featureSize + 1;
+    colRange = size(image2,2) - featureSize + 1;
     for ix = 1:rowRange
         for iy = 1:colRange
-            squares(:,:,(ix-1)*colRange + iy) = cumsum(cumsum(image2(ix:ix+23, iy:iy+23),1),2);
+            squares(:,:,(ix-1)*colRange + iy) = cumsum(cumsum(image2(ix:ix + featureSize - 1, iy:iy+ featureSize - 1),1),2);
         end
     end
     
@@ -69,26 +70,25 @@ while (size(image2,1) > 24 && size(image2,2) > 24)
         NEGATIVE = reshape(FINALFEAT_II(2,:,fx),4,2)';
         for px = 1 : 2
             points = POSITIVE(px, 1:4);
-            row1 = points(1);
-            row2 = points(3);
-            col1 = points(2);
-            col2 = points(4);
+            row1 = max(floor(points(1)),1);
+            row2 = min(round(points(3)), featureSize);
+            col1 = max(floor(points(2)),1);
+            col2 = min(round(points(4)), featureSize);
             if (row1 > 0 )
                 AS(fx,1,:) = AS(fx,1,:) + (squares(row1, col1 ,:) + squares(row2, col2 ,:) - squares(row1, col2, :) - squares(row2, col1, :) );
             end
         end
         for px = 1 : 2
             points = NEGATIVE(px, 1:4);
-            row1 = points(1);
-            row2 = points(3);
-            col1 = points(2);
-            col2 = points(4);
+            row1 = max(floor(points(1)),1);
+            row2 = min(round(points(3)), featureSize);
+            col1 = max(floor(points(2)),1);
+            col2 = min(round(points(4)), featureSize);
             if (row1 > 0)
                 AS(fx,1,:) = AS(fx,1,:) - (squares(row1, col1 ,:) + squares(row2, col2 ,:) - squares(row1, col2, :) - squares(row2, col1, :)) ;
             end
         end
     end
-    beep
 
     AS = reshape(AS, 100, totalSquares);
     AT = repmat(FINALTHRESH',1,size(AS,2)); % create matrix of all thresholds, replicating it so its same size as AS
@@ -98,15 +98,17 @@ while (size(image2,1) > 24 && size(image2,2) > 24)
     for ix = 1:size(locs,2)
         row = round(locs(ix) / colRange) + 1;
         col = round(mod(locs(ix),colRange))+1;
-        image2(row,col:col+23) = 255;
-        image2(row+23,col:col+23) = 255;
-        image2(row:row+23,col) = 255;
-        image2(row:row+23,col+23) = 255;
+        image2(row,col:col+featureSize - 1) = 255;
+        image2(row+featureSize - 1,col:col+featureSize - 1) = 255;
+        image2(row:row+featureSize - 1,col) = 255;
+        image2(row:row+featureSize - 1,col+featureSize - 1) = 255;
     end
     %figure, colormap gray;
     %imagesc(image2);
-    imwrite(image2, sprintf('/Users/nathan/Development/CSE559/Project3/images/%s_II_%d_%d.jpg',prefix, size(image2,1),size(image2,2)));
-    image2 = im2double(imresize(image, size(image2)*.8));
+    %imwrite(image2, sprintf('/Users/nathan/Development/CSE559/Project3/images/%s_II_%d.jpg',prefix, featureSize));
+    image2 = im2double(image);
+    featureSize = round(featureSize * 1.25);
+    FINALFEAT_II = FINALFEAT_II * 1.25;
 end
 
 disp('time to classify image pyramids squares ');

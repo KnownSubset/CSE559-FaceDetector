@@ -305,7 +305,11 @@ I used image pyramid that 80% smaller than the next layer.
  ![Integral Image](https://github.com/KnownSubset/CSE559-facedetector/raw/master/integral_image_example.jpg "Integral Image")
 Integral areas (or summed area tables) are really useful for in the calculation because you can calculate the response of image to feature using four calculations for every subsquare, instead of 24x24 operations for every sub-square.  However I did experience a set back with this as I during the responses for every subsquare within a image.  I was doing each subsquares calculation separately and was befuddled as to why I was not seeing similar or better performance than the original method.  Then I finally realized that I could perform the calculation for all subsquares at the same time.  This was a lesson well learned from using matlab, that operations are faster on array then on each individual element of the array.
 
-Another nice part of the integral image is that it is not necessary to calculate the image pyramid to find "larger faces" than at 24x24 pixels.  Due to the fact that integral image is already calculated it is just as efficient to upsize the features, since it will still only require four operations to calculate the response of subsquare to a feature.  As an aside, I did not upsize the features, and I am sure if I had more time to implement the functionality it would lead to a performance boost the integral images of the image pyramid would not have to be calculated.
+Another nice part of the integral image is that it is not necessary to calculate the image pyramid to find "larger faces" than at 24x24 pixels.  Due to the fact that integral image is already calculated it is just as efficient to upsize the features, since it will still only require four operations to calculate the response of subsquare to a feature.  As an aside, I did get to upsizing the features until late into the project, due to the timing sometimes I encountered an error running the function. So please be wary of the function...
+However since I was able to implement the functionality I can say whether it allows for a performance boost since the image pyramid do not have to be calculated.
+
+Time using expanded features : 8.2089 seconds
+Time using image pyramids    : 
 
 
 
@@ -417,3 +421,11 @@ Both of matlab functions use a mix of other functions contained within the same 
   ![golf 52_28](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_noncascade_52_28.jpg "golf 52_28")
   ![golf 52_28](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_cascade_52_28.jpg "golf 52_28")
 
+  ![golf 24](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_24.jpg "golf 24")
+  ![golf 30](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_30.jpg "golf 30")
+  ![golf 38](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_38.jpg "golf 38")
+  ![golf 48](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_48.jpg "golf 48")
+  ![golf 60](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_60.jpg "golf 60")
+  ![golf 75](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_75.jpg "golf 75")
+  ![golf 94](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_94.jpg "golf 94")
+  ![golf 118](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_118.jpg "golf 118")

@@ -166,37 +166,35 @@ Here are some examples of the worst classifiers:
 
     Non integral images
 
-    finished training 3 mins -2.993770e+01 secs for #12876 faces
+    finished training 3 mins -2.993770e+01 secs for #12876 faces  => 2 mins 30 secs
     true positive: 8.303499e-01 %  or 4082 out of 4916 faces
     true negative: 9.488693e-01 %  or 7553 out of 7960 faces
     false negatives: 1.696501e-01 %  or 834 out of 4916 faces
     false positives: 5.113065e-02 %  or 407 out of 7960 faces
 
-    finished training 3 mins -2.993770e+01 secs for #12876 faces
-    true positive: 8.303499e-01 %  or 4082 out of 4916 faces
-    true negative: 9.488693e-01 %  or 7553 out of 7960 faces
-    false negatives: 1.696501e-01 %  or 834 out of 4916 faces
-    false positives: 5.113065e-02 %  or 407 out of 7960 faces
-    total running time ???
-
+    finished training 3 mins -2.993770e+01 secs for #12676 faces  => 2 mins 30 secs
+    true positive: 8.300000e-01 %  or 83 out of 100 faces
+    true negative: 9.400000e-01 %  or 94 out of 100 faces
+    false negatives: 1.700000e-01 %  or 17 out of 100 faces
+    false positives: 6.000000e-02 %  or 6 out of 100 faces
+    
  - - -
 
     Integral images
 
     time to calculate integral image on training data : 0.1074
-    finished training 2 mins 2.313361e+01 secs for #12876 faces
+    finished training 2 mins 2.313361e+01 secs for #12876 faces  => 2 mins 23 secs
     true positive: 8.567941e-01 % or 4212 out of 4916
     true negative: 6.432161e-01 % or 5120 out of 7960
     false negatives: 1.432059e-01 % or 704 out of 4916
     false positives: 3.567839e-01 % or 2840 out of 7960
 
-    finished training 3 mins -4.012887e+01 secs for #12676 faces
+    finished training 3 mins -4.012887e+01 secs for #12676 faces   =>2 mins 20 secs
     true positive: 2.600000e-01 % or 26 out of 100
     true negative: 9.100000e-01 % or 91 out of 100
     false negatives: 7.400000e-01 % or 74 out of 100
     false positives: 9.000000e-02 % or 9 out of 100
-    total running time ???
-
+    
 As we can see that the total running time for the integral images is actually higher than the running time not using integral images. This is due to matlab being heavily optimized for matrix operations and the integral operations having iterate through the sets of points that comprised the positive and negative regions as demonstrated through this pseudo-code.
 
 
@@ -287,22 +285,22 @@ The processed images at the bottom of the report demonstrate the higher success 
 ### Results from a sample classification run
 
 
-    image size  |   time (secs)   |  cascade (original) |  cascade size=10
-    221 250     |   1.1370        |   1.7805            |
-    177 200     |   0.7513        |   1.3505            |
-    142 160     |   0.4657        |   0.8743            |
-    114 128     |   0.2546        |   0.5496            |
-    92 103      |   0.1624        |   0.3339            |
-    74 83       |   0.0878        |   0.2210            |
-    60 67       |   0.0511        |   0.1128            |
-    48 54       |   0.0247        |   0.0465            |
-    39 44       |   0.0112        |   0.0185            |
-    32 36       |   0.0034        |   0.0075            |
-    26 29       |   0.000941      |   0.0052            |
+    image size  |   time (secs)   |  cascade (original) |  cascade size=10 |  cascade size=2
+    221 250     |   1.1370        |   1.7805            |   0.4585         |   0.0
+    177 200     |   0.7513        |   1.3505            |   0.2844         |   0.0
+    142 160     |   0.4657        |   0.8743            |   0.2367         |   0.0
+    114 128     |   0.2546        |   0.5496            |   0.1166         |   0.0
+    92 103      |   0.1624        |   0.3339            |   0.0869         |   0.0
+    74 83       |   0.0878        |   0.2210            |   0.0497         |   0.0
+    60 67       |   0.0511        |   0.1128            |   0.0275         |   0.0
+    48 54       |   0.0247        |   0.0465            |   0.0162         |   0.0
+    39 44       |   0.0112        |   0.0185            |   0.0082         |   0.0
+    32 36       |   0.0034        |   0.0075            |   0.0027         |   0.0
+    26 29       |   0.000941      |   0.0052            |   0.0023         |   0.0
 
 total time to classify image pyramids squares: 9.2413
 
-I used image pyramid that 80% smaller than the next layer.
+I used image pyramid that 80% smaller than the next layer, I chose this value as I read from the Viola-Jones paper that they found the best success using layers that 1.25 smaller than the next.
 
 ###Integral Images
  ![Integral Image](https://github.com/KnownSubset/CSE559-facedetector/raw/master/integral_image_example.jpg "Integral Image")
@@ -394,6 +392,7 @@ Both of matlab functions use a mix of other functions contained within the same 
 
   ![golf ](https://github.com/KnownSubset/CSE559-FaceDetector/raw/master/data/JJsts.jpg "golf")
 
+  *Golf images NOT using integral images
   ![golf 477_240](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_noncascade_477_240.jpg "golf 477_240")
   ![golf 477_240](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_cascade_477_240.jpg "golf 477_240")
  - - -
@@ -427,6 +426,8 @@ Both of matlab functions use a mix of other functions contained within the same 
   ![golf 52_28](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_noncascade_52_28.jpg "golf 52_28")
   ![golf 52_28](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_cascade_52_28.jpg "golf 52_28")
  - - -
+  *Golf images using integral images
+  Again for these images local maximum suppression helped here, but it would have better if I would have combined the overlapping detected faces into a single detected face.
   
   ![golf 24](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_24.jpg "golf 24") * feature size 24x24
   
@@ -445,5 +446,4 @@ Both of matlab functions use a mix of other functions contained within the same 
   ![golf 118](https://github.com/KnownSubset/CSE559-facedetector/raw/master/images/golf_II_118.jpg "golf 118") * feature size 118x118
 
 
-  Again for these images local maximum suppression helped here, but it would have better if I would have combined the overlapping detected faces into a single detected face.
  
